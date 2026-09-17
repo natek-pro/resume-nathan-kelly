@@ -10,7 +10,7 @@ import unicodedata
 from pypdf import PdfReader
 
 root = Path(__file__).resolve().parent.parent
-source = root / (sys.argv[1] if len(sys.argv) > 1 else 'README.md')
+source = root / (sys.argv[1] if len(sys.argv) > 1 else 'resume_source.md')
 pdf = root / (sys.argv[2] if len(sys.argv) > 2 else 'output/pdf/Nathan-Kelly-Resume.pdf')
 markdown = source.read_text()
 # Compare visible link labels, not Markdown link destinations.

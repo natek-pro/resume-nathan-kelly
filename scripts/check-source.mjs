@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = path.resolve(root, process.argv[2] || 'README.md');
+const source = path.resolve(root, process.argv[2] || 'resume_source.md');
 const markdown = await fs.readFile(source, 'utf8');
 const errors = [];
 const required = ['Summary', 'Core Competencies', 'Professional Experience', 'Education', 'Additional Skills'];

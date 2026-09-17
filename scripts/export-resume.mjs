@@ -20,7 +20,7 @@ function dependency(name) {
 }
 const { marked } = dependency('marked');
 const { chromium } = dependency('playwright');
-const source = path.resolve(root, process.argv[2] || 'README.md');
+const source = path.resolve(root, process.argv[2] || 'resume_source.md');
 const destination = path.resolve(root, process.argv[3] || 'output/pdf/Nathan-Kelly-Resume.pdf');
 // A failed export must not truncate the last successful PDF.
 const temporary = `${destination}.${process.pid}.tmp`;

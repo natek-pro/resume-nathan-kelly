@@ -53,7 +53,7 @@ jobs:
         run: npm run build
       - name: Check PDF content
         id: content
-        run: npm run check:pdf -- README.md output/pdf/drafts/resume.pdf
+        run: npm run check:pdf -- resume_source.md output/pdf/drafts/resume.pdf
       - name: Check rendered fonts
         id: fonts
         if: ${{ !cancelled() && hashFiles('output/pdf/drafts/resume.pdf') != '' }}

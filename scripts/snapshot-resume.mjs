@@ -12,7 +12,7 @@ const destination = path.join(root, 'versions', label);
 await fs.mkdir(path.dirname(destination), { recursive: true });
 // Existing snapshots are never overwritten.
 await fs.mkdir(destination);
-const files = ['package.json', 'package-lock.json', 'requirements.txt', 'README.md', 'AGENTS.md', '.gitignore', '.nvmrc'];
+const files = ['package.json', 'package-lock.json', 'requirements.txt', 'resume_source.md', 'AGENTS.md', '.gitignore', '.nvmrc'];
 async function collect(directory) {
   for (const entry of await fs.readdir(path.join(root, directory), { withFileTypes: true })) {
     if (entry.name.startsWith('.') || entry.name === '__pycache__' || /\.py[cod]$/.test(entry.name)) continue;

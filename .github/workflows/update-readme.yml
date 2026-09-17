@@ -1,0 +1,46 @@
+name: Update resume homepage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - resume_source.md
+      - scripts/generate-readme.mjs
+      - scripts/check-source.mjs
+      - .github/README.md
+      - .github/workflows/update-readme.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: resume-homepage
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Validate source and generate homepage
+        run: |
+          node scripts/check-source.mjs
+          node scripts/generate-readme.mjs
+          node scripts/generate-readme.mjs --check
+      - name: Commit updated homepage
+        run: |
+          git add .github/README.md
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Update generated resume homepage"
+          git push origin HEAD:main

@@ -9,13 +9,15 @@
     "browser:install": "playwright install chromium --only-shell",
     "check:source": "node scripts/check-source.mjs",
     "check:pdf": "python3 scripts/check-export.py",
-    "build": "npm run check:source && npm run export -- README.md output/pdf/drafts/resume.pdf",
-    "check": "npm run check:source && npm run check:pdf -- README.md output/pdf/drafts/resume.pdf && npm run check:fonts",
+    "build": "npm run readme && npm run export -- resume_source.md output/pdf/drafts/resume.pdf",
+    "check": "npm run check:source && npm run check:pdf -- resume_source.md output/pdf/drafts/resume.pdf && npm run check:fonts",
     "export": "node scripts/export-resume.mjs",
     "snapshot": "node scripts/snapshot-resume.mjs",
     "check:fonts": "python3 scripts/check-fonts.py",
     "build:encrypted": "python3 scripts/build-encrypted.py",
-    "test": "python3 -m unittest discover -s tests"
+    "test": "python3 -m unittest discover -s tests",
+    "readme": "npm run check:source && node scripts/generate-readme.mjs",
+    "check:readme": "node scripts/generate-readme.mjs --check"
   },
   "dependencies": {
     "marked": "15.0.12",

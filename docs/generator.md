@@ -1,6 +1,8 @@
 # Resume generator
 
-The root `README.md` is both the public resume and the single source for all builds. GitHub renders it as the repository homepage. This document explains the generator.
+The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
+
+Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage** workflow automatically regenerates and commits `.github/README.md` after source or generator changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and commit the generated file with your source change. `npm run check:readme` detects a stale display copy.
 
 ## Outputs and privacy
 
@@ -92,7 +94,9 @@ To configure a new recipient, generate an identity locally with `age-keygen -o <
 
 | Path | Purpose |
 | --- | --- |
-| `README.md` | Public resume and active content source |
+| `resume_source.md` | Only editable resume source |
+| `.github/README.md` | Generated homepage display copy |
+| `scripts/generate-readme.mjs` | Generate or check the homepage copy |
 | `docs/generator.md` | Setup, CI, privacy, and decryption instructions |
 | `AGENTS.md` | Editorial and agent handoff rules |
 | `templates/` | HTML wrapper and print CSS |

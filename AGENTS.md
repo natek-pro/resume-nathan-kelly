@@ -4,7 +4,7 @@
 
 This directory is a self-contained resume source and PDF generator. All paths below are relative to this directory, so these instructions remain useful when the folder moves to a new project.
 
-- Active wording and emphasis: `README.md`.
+- Active wording and emphasis: `resume_source.md`.
 - Current reviewed export: `output/pdf/Nathan-Kelly-Resume.pdf`.
 - Operational reference: `docs/generator.md`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
@@ -51,8 +51,8 @@ Run commands from this directory:
 
 ```sh
 npm run snapshot -- YYYY-MM-DD-before-description
-npm run export -- README.md output/pdf/drafts/description.pdf
-python3 scripts/check-export.py README.md output/pdf/drafts/description.pdf
+npm run export -- resume_source.md output/pdf/drafts/description.pdf
+python3 scripts/check-export.py resume_source.md output/pdf/drafts/description.pdf
 ```
 
 1. Save a snapshot before changing source or generator. Use a new descriptive name; existing snapshots cannot be overwritten.
@@ -107,7 +107,7 @@ When moving this folder, keep the active source, scripts, templates, package con
 ## Git foundation (September 16, 2026)
 
 - Git tracks the active source, generator, templates, dependency configuration, documentation, and CI workflow. `output/`, `tmp/`, `reference/`, and `versions/` are local-only and ignored. The historical snapshot paths above describe the original workspace, not files guaranteed in a clone.
-- `npm run build` checks source structure and exports to `output/pdf/drafts/resume.pdf`; `npm run check` validates that draft’s extracted content and actual Georgia/Arial font faces. Use an activated Python environment and explicitly set `RESUME_PYTHON` as documented in README.
+- `npm run build` checks source structure and exports to `output/pdf/drafts/resume.pdf`; `npm run check` validates that draft’s extracted content and actual Georgia/Arial font faces. Use an activated Python environment and explicitly set `RESUME_PYTHON` as documented in `docs/generator.md`.
 - CI builds and validates drafts and saves review artifacts. It does not publish, perform live ATS parsing, or replace human layout review. It targets macOS 15 and rejects substituted font faces. Its output still requires visual review; font versions and browser updates can change layout.
 - Prefer promoting the exact reviewed draft, rather than regenerating after review. Do not commit generated outputs or automatically replace the reviewed local PDF with CI output.
 - Experience, education, skills, and styling remain unchanged. The user approved removing phone/email from public source and displaying the LinkedIn URL.
@@ -116,4 +116,4 @@ The Generate and validate resume workflow names CI downloads `Resume-Nathan-Kell
 
 ## Public and private variants
 
-The root README is now the resume itself; move operational explanations to `docs/generator.md`. The public contact stanza intentionally omits email/phone and displays the LinkedIn URL. `scripts/build-encrypted.py` injects `EMAIL` and `PHONE_NUMBER` in a restricted temporary directory, validates the application PDF, and encrypts to the public `AGE_RECIPIENT`. Missing configuration must fail closed. Do not run secret-bearing code from PR refs. Use synthetic contact details in tests; never commit private keys. Historical token-count evidence above predates the approved contact changes.
+The root `resume_source.md` is the only editable resume source; `.github/README.md` is generated for homepage display. Run `npm run readme` after source edits and never edit the generated copy directly. A main-only workflow also commits homepage updates automatically; move operational explanations to `docs/generator.md`. The public contact stanza intentionally omits email/phone and displays the LinkedIn URL. `scripts/build-encrypted.py` injects `EMAIL` and `PHONE_NUMBER` in a restricted temporary directory, validates the application PDF, and encrypts to the public `AGE_RECIPIENT`. Missing configuration must fail closed. Do not run secret-bearing code from PR refs. Use synthetic contact details in tests; never commit private keys. Historical token-count evidence above predates the approved contact changes.

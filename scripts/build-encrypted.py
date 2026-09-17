@@ -32,7 +32,7 @@ def contact_values(env):
 def application_source(public, email, phone):
     anchor = 'Phoenix, AZ  \n'
     if public.count(anchor) != 1:
-        raise ValueError('Expected exactly one public contact line in README.md.')
+        raise ValueError('Expected exactly one public contact line in resume_source.md.')
     # Escape Markdown label syntax; the mailto destination is separately restricted.
     label = re.sub(r'([\\`*_{}\[\]<>])', r'\\\1', email)
     contact = f'Phoenix, AZ · {phone} · [{label}](mailto:{email})  \n'
@@ -55,7 +55,7 @@ def main():
     python = env.get('RESUME_PYTHON', sys.executable)
     env['RESUME_PYTHON'] = python
     run_checked('Public source check', ['node', 'scripts/check-source.mjs'], env)
-    source = application_source((ROOT / 'README.md').read_text(), email, phone)
+    source = application_source((ROOT / 'resume_source.md').read_text(), email, phone)
     with tempfile.TemporaryDirectory(prefix='resume-private-', dir=env.get('RUNNER_TEMP')) as folder:
         work = Path(folder)
         md, pdf, encrypted = work / 'source.md', work / 'resume.pdf', work / 'resume.pdf.age'
