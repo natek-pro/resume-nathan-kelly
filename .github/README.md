@@ -1,6 +1,6 @@
 <!-- Generated from ../resume_source.md. Do not edit; run npm run readme. -->
 
-# Nate Kelly
+# Nathan Kelly
 
 **Product & Engineering Leader | Applied AI & Machine Learning**
 
