@@ -1,4 +1,4 @@
-# Nathan Kelly
+# Nate Kelly
 
 **Product & Engineering Leader | Applied AI & Machine Learning**
 
