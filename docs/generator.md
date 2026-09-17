@@ -13,7 +13,13 @@ Run `npm run readme` to refresh the homepage locally (`npm run build` also refre
 
 Both outputs use the same experience, education, and skills. `EMAIL` and `PHONE_NUMBER` are GitHub Actions secrets; `AGE_RECIPIENT` is a repository variable containing the public age recipient key. The private decryption identity stays on the owner's computer, never in GitHub.
 
-Nothing is automatically hosted on GitHub Pages yet. A public artifact is accessible to people with repository read access. The application artifact is safe to share only because its contents are encrypted; artifact access alone is not privacy protection.
+The reviewed public PDF is hosted at https://natek.pro/resume-pdf/ through the existing `natek-pro/natek.pro` GitHub Pages repository. A minimal `resume-pdf/index.html` redirects to `resume-pdf/Nathan-Kelly-Resume.pdf` and provides a fallback link. `/resume/` is reserved for a possible future web version. No separate HTML resume is maintained.
+
+Deployment runs automatically on `main` only after **both** `validate` and `encrypted` succeed. Failed, cancelled, or skipped prerequisites prevent publishing; PRs and other branches never deploy. The deployment job downloads only the current run's named public artifact, verifies its SHA-256 against the validation job's output, commits that exact PDF into `natek-pro/natek.pro`, then polls the live HTTPS URL until its SHA-256 matches. It does not rebuild the PDF or download private artifacts. GitHub Pages publishes the website commit. A publication or verification failure fails the deployment job; the run summary links the verified PDF only on success.
+
+`WEBSITE_DEPLOY_KEY` is an Actions secret containing a dedicated SSH private key; its public key is a write-enabled deploy key on `natek-pro/natek.pro` only. It is distinct from the age decryption identity and the contact secrets. Rotate it by replacing the website deploy key and the source repository secret together. The website redirect remains unchanged, and `/resume/` remains available. Automated checks do not replace visual layout review when changing resume content or styling.
+
+A public build artifact is accessible to people with repository read access; the deployed PDF is accessible to everyone. The application artifact is safe to share only because its contents are encrypted; artifact access alone is not privacy protection.
 
 ## Setup and public build
 
@@ -48,10 +54,12 @@ The source checker rejects email addresses and common formatted phone numbers in
 
 ## GitHub Actions
 
-The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains two jobs:
+The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains three jobs:
 
 1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It tests privacy helpers, checks the public source, builds the public PDF, validates content/fonts, and saves public-only diagnostics.
 2. **encrypted** runs only on `main`, after public validation, for pushes or manual dispatch. It installs dependencies before receiving contact secrets, builds and validates the private PDF in a restricted temporary directory, encrypts it, and uploads only the ciphertext.
+
+3. **deploy** runs only on `main`, after both preceding jobs succeed, publishes the exact validated public PDF, and verifies the live bytes.
 
 PRs never receive the contact secrets. No private PDFs, page previews, extracted text, generated Markdown, or captured subprocess logs are uploaded. The private builder suppresses subprocess output on failure as well as success; failures must not echo contact values. Temporary plaintext is removed when the builder exits normally or with a handled error; abrupt runner termination relies on the ephemeral runner's disposal. Do not use this job on a persistent self-hosted runner without additional cleanup guarantees.
 

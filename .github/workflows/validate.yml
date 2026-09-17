@@ -18,6 +18,7 @@ jobs:
     name: Generate and validate public resume
     outputs:
       basename: ${{ steps.naming.outputs.basename }}
+      pdf_sha256: ${{ steps.public_hash.outputs.sha256 }}
     # Match the reviewed local font environment; reject substitutions below.
     runs-on: macos-15
     timeout-minutes: 20
@@ -74,6 +75,9 @@ jobs:
         run: |
           mkdir -p dist
           cp output/pdf/drafts/resume.pdf dist/${{ steps.naming.outputs.basename }}-Public.pdf
+      - name: Record validated public PDF hash
+        id: public_hash
+        run: echo "sha256=$(shasum -a 256 dist/${{ steps.naming.outputs.basename }}-Public.pdf | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
       - name: Upload PDF
         id: pdf
         if: ${{ success() }}
@@ -181,3 +185,61 @@ jobs:
               echo 'No encrypted download was produced. Check EMAIL, PHONE_NUMBER, AGE_RECIPIENT, and the failed step.'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Publish validated public PDF
+    needs: [validate, encrypted]
+    if: ${{ success() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Download this run's validated public PDF only
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.validate.outputs.basename }}-Public
+          path: public-pdf
+      - name: Verify validated artifact hash
+        env:
+          BASENAME: ${{ needs.validate.outputs.basename }}
+          EXPECTED_SHA256: ${{ needs.validate.outputs.pdf_sha256 }}
+        run: |
+          test -n "$EXPECTED_SHA256"
+          echo "$EXPECTED_SHA256  public-pdf/$BASENAME-Public.pdf" | sha256sum --check --strict
+      - name: Check out website with repository-scoped deploy key
+        uses: actions/checkout@v4
+        with:
+          repository: natek-pro/natek.pro
+          ref: main
+          path: website
+          ssh-key: ${{ secrets.WEBSITE_DEPLOY_KEY }}
+      - name: Update hosted public PDF
+        env:
+          BASENAME: ${{ needs.validate.outputs.basename }}
+        run: |
+          test -f website/resume-pdf/index.html
+          cp "public-pdf/$BASENAME-Public.pdf" website/resume-pdf/Nathan-Kelly-Resume.pdf
+          cd website
+          git add -- resume-pdf/Nathan-Kelly-Resume.pdf
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Publish validated public resume from $GITHUB_SHA" -m "Source run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          git push origin HEAD:main
+      - name: Verify live PDF matches the validated artifact
+        env:
+          EXPECTED_SHA256: ${{ needs.validate.outputs.pdf_sha256 }}
+        run: |
+          for attempt in $(seq 1 40); do
+            if curl --fail --silent --show-error --location --max-time 20 \
+              "https://natek.pro/resume-pdf/Nathan-Kelly-Resume.pdf?build=$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" -o live.pdf; then
+              if echo "$EXPECTED_SHA256  live.pdf" | sha256sum --check --strict; then
+                echo 'Published and verified [public resume PDF](https://natek.pro/resume-pdf/).' >> "$GITHUB_STEP_SUMMARY"
+                exit 0
+              fi
+            fi
+            sleep 10
+          done
+          echo 'The live PDF did not match the validated artifact before the timeout.' >&2
+          exit 1
