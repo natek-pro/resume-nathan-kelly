@@ -112,7 +112,7 @@ When moving this folder, keep the active source, scripts, templates, package con
 - Prefer promoting the exact reviewed draft, rather than regenerating after review. Do not commit generated outputs or automatically replace the reviewed local PDF with CI output.
 - Experience, education, skills, and styling remain unchanged. The user approved removing phone/email from public source and displaying the LinkedIn URL.
 
-CI downloads are `Nathan-Kelly-Resume-Public`, `resume-public-diagnostics`, and (main only) `Nathan-Kelly-Resume-Encrypted`. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job; only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
+The Generate and validate resume workflow names CI downloads `Resume-Nathan-Kelly-<UTC timestamp>-Public`, `Resume-Nathan-Kelly-<UTC timestamp>-Public-Diagnostics`, and (main only) `Resume-Nathan-Kelly-<UTC timestamp>-Encrypted`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job; only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
 
 ## Public and private variants
 

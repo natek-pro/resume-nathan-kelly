@@ -46,7 +46,7 @@ The source checker rejects email addresses and common formatted phone numbers in
 
 ## GitHub Actions
 
-`.github/workflows/validate.yml` contains two jobs:
+The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains two jobs:
 
 1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It tests privacy helpers, checks the public source, builds the public PDF, validates content/fonts, and saves public-only diagnostics.
 2. **encrypted** runs only on `main`, after public validation, for pushes or manual dispatch. It installs dependencies before receiving contact secrets, builds and validates the private PDF in a restricted temporary directory, encrypts it, and uploads only the ciphertext.
@@ -55,9 +55,11 @@ PRs never receive the contact secrets. No private PDFs, page previews, extracted
 
 Download from **Actions → a run → Summary**:
 
-- `Nathan-Kelly-Resume-Public`: ZIP containing the public PDF.
-- `resume-public-diagnostics`: public page images, extraction, font report, metadata, and provenance; may exist on a failed run.
-- `Nathan-Kelly-Resume-Encrypted`: ZIP containing `Nathan-Kelly-Resume.pdf.age`, produced only after the application PDF passes validation and encryption succeeds.
+- `Resume-Nathan-Kelly-<timestamp>-Public`: ZIP containing the identically named public PDF.
+- `Resume-Nathan-Kelly-<timestamp>-Public-Diagnostics`: public page images, extraction, font report, metadata, and provenance; may exist on a failed run.
+- `Resume-Nathan-Kelly-<timestamp>-Encrypted`: ZIP containing `Resume-Nathan-Kelly-<timestamp>.pdf.age`, produced only after the application PDF passes validation and encryption succeeds.
+
+The timestamp is UTC in `YYYYMMDDTHHMMSSZ` format (for example, `20260917T180000Z`) and is shared by all downloads from a build. Rerunning the public job creates a new timestamp; rerunning only the encrypted job reuses the successful public job’s timestamp. The private builder uses a fixed local staging filename; CI renames only the completed ciphertext for download.
 
 Downloads expire after 14 days. Main builds fail rather than silently omit private contact fields when secrets or the public recipient are missing/invalid. Review all workflow/code/dependency changes before merging: code run on main can access secrets. Protect main with required reviews/checks if accepting contributions.
 
@@ -68,11 +70,11 @@ Install age once (`brew install age`). Extract the encrypted file from the downl
 ```sh
 age --decrypt \
   -i "$HOME/.config/age/resume-identity.txt" \
-  -o "$HOME/Downloads/Nathan-Kelly-Resume-Application.pdf" \
-  "$HOME/Downloads/Nathan-Kelly-Resume.pdf.age"
+  -o "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf" \
+  "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf.age"
 ```
 
-Adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
+Replace the example timestamp with the one in your download and adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
 
 Back up the identity file securely, such as in an encrypted password-manager attachment. Anyone with the identity can decrypt its matching artifacts; losing it means losing access to those downloads. GitHub cannot recover it. Never paste the private identity into an issue, chat, repository secret, or workflow log.
 

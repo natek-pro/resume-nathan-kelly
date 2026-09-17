@@ -1,4 +1,4 @@
-name: Validate resume
+name: Generate and validate resume
 
 on:
   pull_request:
@@ -15,6 +15,9 @@ concurrency:
 
 jobs:
   validate:
+    name: Generate and validate public resume
+    outputs:
+      basename: ${{ steps.naming.outputs.basename }}
     # Match the reviewed local font environment; reject substitutions below.
     runs-on: macos-15
     timeout-minutes: 20
@@ -22,6 +25,9 @@ jobs:
       RESUME_PYTHON: python3
       RESUME_HEADER_FONT: /System/Library/Fonts/Supplemental/Arial.ttf
     steps:
+      - name: Set download timestamp
+        id: naming
+        run: echo "basename=Resume-Nathan-Kelly-$(date -u +%Y%m%dT%H%M%SZ)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -67,22 +73,22 @@ jobs:
         if: ${{ success() }}
         run: |
           mkdir -p dist
-          cp output/pdf/drafts/resume.pdf dist/Nathan-Kelly-Resume-Public.pdf
+          cp output/pdf/drafts/resume.pdf dist/${{ steps.naming.outputs.basename }}-Public.pdf
       - name: Upload PDF
         id: pdf
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
-          name: Nathan-Kelly-Resume-Public
+          name: ${{ steps.naming.outputs.basename }}-Public
           retention-days: 14
           if-no-files-found: error
-          path: dist/Nathan-Kelly-Resume-Public.pdf
+          path: dist/${{ steps.naming.outputs.basename }}-Public.pdf
       - name: Upload diagnostics
         id: diagnostics
         if: ${{ !cancelled() && hashFiles('tmp/ci/**') != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: resume-public-diagnostics
+          name: ${{ steps.naming.outputs.basename }}-Public-Diagnostics
           retention-days: 14
           if-no-files-found: error
           path: tmp/ci/
@@ -114,6 +120,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   encrypted:
+    name: Generate, validate, and encrypt application resume
     # No secrets on PRs, forks, or manual dispatches of other branches.
     if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
     needs: validate
@@ -148,14 +155,16 @@ jobs:
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
           AGE_RECIPIENT: ${{ vars.AGE_RECIPIENT }}
         run: npm run build:encrypted
+      - name: Name encrypted download
+        run: mv dist/encrypted/Nathan-Kelly-Resume.pdf.age "dist/encrypted/${{ needs.validate.outputs.basename }}.pdf.age"
       - name: Upload encrypted PDF only
         id: encrypted
         uses: actions/upload-artifact@v4
         with:
-          name: Nathan-Kelly-Resume-Encrypted
+          name: ${{ needs.validate.outputs.basename }}-Encrypted
           retention-days: 14
           if-no-files-found: error
-          path: dist/encrypted/Nathan-Kelly-Resume.pdf.age
+          path: dist/encrypted/${{ needs.validate.outputs.basename }}.pdf.age
       - name: Write encrypted download summary
         if: ${{ always() }}
         env:
