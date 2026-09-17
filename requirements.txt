@@ -1,0 +1,12 @@
+# Pinned PDF dependencies, including the tested transitive dependency set.
+# Update deliberately and rerun PDF extraction and visual review.
+pypdf==6.10.0
+pdfplumber==0.11.9
+reportlab==4.4.9
+pdfminer.six==20251230
+pypdfium2==5.13.0
+Pillow==12.3.0
+charset-normalizer==3.5.1
+cryptography==50.0.1
+cffi==2.1.1
+pycparser==3.0

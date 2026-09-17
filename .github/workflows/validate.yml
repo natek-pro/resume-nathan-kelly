@@ -1,0 +1,174 @@
+name: Validate resume
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: resume-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    # Match the reviewed local font environment; reject substitutions below.
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      RESUME_PYTHON: python3
+      RESUME_HEADER_FONT: /System/Library/Fonts/Supplemental/Arial.ttf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: |
+          npm ci
+          python3 -m pip install -r requirements.txt
+          npm run browser:install
+          if ! command -v pdftoppm >/dev/null; then brew install poppler; fi
+      - name: Verify system fonts
+        run: |
+          test -f /System/Library/Fonts/Supplemental/Georgia.ttf
+          test -f "$RESUME_HEADER_FONT"
+      - name: Test privacy helpers
+        run: npm test
+      - name: Build draft
+        run: npm run build
+      - name: Check PDF content
+        id: content
+        run: npm run check:pdf -- README.md output/pdf/drafts/resume.pdf
+      - name: Check rendered fonts
+        id: fonts
+        if: ${{ !cancelled() && hashFiles('output/pdf/drafts/resume.pdf') != '' }}
+        run: npm run check:fonts -- output/pdf/drafts/resume.pdf --report tmp/ci/fonts.json
+      - name: Save extraction and page previews
+        if: ${{ !cancelled() && hashFiles('output/pdf/drafts/resume.pdf') != '' }}
+        run: |
+          mkdir -p tmp/ci/pages
+          cp output/pdf/drafts/resume.pdf tmp/ci/generated-resume.pdf
+          pdftotext output/pdf/drafts/resume.pdf tmp/ci/raw-text.txt
+          pdftotext -layout output/pdf/drafts/resume.pdf tmp/ci/layout-text.txt
+          pdfinfo output/pdf/drafts/resume.pdf > tmp/ci/pdfinfo.txt
+          pdftoppm -r 100 -png output/pdf/drafts/resume.pdf tmp/ci/pages/page
+          git rev-parse HEAD > tmp/ci/source-commit.txt
+          shasum -a 256 output/pdf/drafts/resume.pdf > tmp/ci/pdf-sha256.txt
+      - name: Prepare PDF download
+        if: ${{ success() }}
+        run: |
+          mkdir -p dist
+          cp output/pdf/drafts/resume.pdf dist/Nathan-Kelly-Resume-Public.pdf
+      - name: Upload PDF
+        id: pdf
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nathan-Kelly-Resume-Public
+          retention-days: 14
+          if-no-files-found: error
+          path: dist/Nathan-Kelly-Resume-Public.pdf
+      - name: Upload diagnostics
+        id: diagnostics
+        if: ${{ !cancelled() && hashFiles('tmp/ci/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: resume-public-diagnostics
+          retention-days: 14
+          if-no-files-found: error
+          path: tmp/ci/
+      - name: Write run summary
+        if: ${{ always() }}
+        env:
+          PDF_URL: ${{ steps.pdf.outputs.artifact-url }}
+          DIAGNOSTICS_URL: ${{ steps.diagnostics.outputs.artifact-url }}
+          CONTENT_RESULT: ${{ steps.content.outcome }}
+          FONT_RESULT: ${{ steps.fonts.outcome }}
+        run: |
+          {
+            echo '## Resume build'
+            echo
+            echo "- Content check: $CONTENT_RESULT"
+            echo "- Font check: $FONT_RESULT"
+            echo
+            if [ -n "$PDF_URL" ]; then
+              echo "[Download the public resume PDF (ZIP)]($PDF_URL)"
+            else
+              echo 'No validated PDF download was produced. Inspect the failed or skipped steps.'
+            fi
+            echo
+            if [ -n "$DIAGNOSTICS_URL" ]; then
+              echo "[Download public diagnostics and page previews]($DIAGNOSTICS_URL)"
+            fi
+            echo
+            echo 'Downloads expire after 14 days. Visual review is still required. These checks do not certify ATS parsing.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  encrypted:
+    # No secrets on PRs, forks, or manual dispatches of other branches.
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    needs: validate
+    runs-on: macos-15
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      RESUME_PYTHON: python3
+      RESUME_HEADER_FONT: /System/Library/Fonts/Supplemental/Arial.ttf
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies before loading secrets
+        run: |
+          npm ci
+          python3 -m pip install -r requirements.txt
+          npm run browser:install
+          brew install age
+      - name: Build, validate, and encrypt application resume
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
+          AGE_RECIPIENT: ${{ vars.AGE_RECIPIENT }}
+        run: npm run build:encrypted
+      - name: Upload encrypted PDF only
+        id: encrypted
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nathan-Kelly-Resume-Encrypted
+          retention-days: 14
+          if-no-files-found: error
+          path: dist/encrypted/Nathan-Kelly-Resume.pdf.age
+      - name: Write encrypted download summary
+        if: ${{ always() }}
+        env:
+          ENCRYPTED_URL: ${{ steps.encrypted.outputs.artifact-url }}
+        run: |
+          {
+            echo '## Private application resume'
+            echo
+            if [ -n "$ENCRYPTED_URL" ]; then
+              echo "[Download encrypted application resume (ZIP)]($ENCRYPTED_URL)"
+              echo
+              echo 'Decrypt locally with your age identity. No plaintext application PDF or private diagnostics were uploaded.'
+            else
+              echo 'No encrypted download was produced. Check EMAIL, PHONE_NUMBER, AGE_RECIPIENT, and the failed step.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
