@@ -1,0 +1,127 @@
+{
+  "direction": "Computer Vision & ML Data Systems",
+  "purpose": "Computer-vision engineer, ML data engineer, data-centric ML engineer, and selected perception or robotics-perception roles: imaging design, recognition classes, capture pipelines, ground truth, measurable error correction, and learned visual collision avoidance.",
+  "sourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903",
+  "publicDraftSha256": "3886c4a08c37712f209520c093aac3a9a70914116af01793d500889a22b002c5",
+  "groupedSelection": "resume-subsets-grouped/computer-vision-ml-data-systems.md",
+  "groups": [
+    {
+      "title": "Defining & Capturing Recognition Data",
+      "bullets": [
+        {
+          "id": "RAI-DS-01",
+          "sha256": "6e12c4dea23ebb42085104d0c214cdc46e6c0682fae65dbce6db7eb7135e91ad"
+        },
+        {
+          "id": "RAI-DS-06",
+          "sha256": "6218e69ebb4e8820dae1ed88f40842041b17b7bd824593b170d5d835343f6c9f"
+        },
+        {
+          "id": "RAI-DS-02",
+          "sha256": "d8a50c91951e3535b4ae50c4e03a74dbe4cee061c43a0ab04f47fb5b3b96426f"
+        }
+      ]
+    },
+    {
+      "title": "Reconciling Ground Truth & Retail Events",
+      "bullets": [
+        {
+          "id": "RAI-DS-04",
+          "sha256": "68d8ffe65aeb2e954d89ef95acccb8e193bb41e4e491829dfa679be1ae2d90ca"
+        },
+        {
+          "id": "RAI-DS-05",
+          "sha256": "78fbf94737dccdca4ca6a785033c6b88d4be247d359a902e2d65219333f13b85"
+        },
+        {
+          "id": "RAI-DS-07",
+          "sha256": "d29ab6b59f20e072c8e1d45a445331ccb15790afea6b496c42c47626e98fd75c"
+        }
+      ]
+    },
+    {
+      "title": "Learning Robot Dynamics & Collision Avoidance",
+      "bullets": [
+        {
+          "id": "ASU-RA-00",
+          "sha256": "0834e28bb678cc821d940918e6dfcbbd90ad6695e26dc232722174ac1d411a44"
+        },
+        {
+          "id": "ASU-RA-01",
+          "sha256": "6801fe4bec06cbaa8ff4aea612ec9d4b2a6d38f8f0a396a5ddd82ee7106840f6"
+        }
+      ]
+    }
+  ],
+  "scopeDecisions": [
+    "Preserve the imaging/class-definition/capture group, the ground-truth and POS-alignment group, and the paired ASU learned-dynamics and visual collision-avoidance bullets.",
+    "Keep the original RadiusAI role scope, including capture hardware, training data, lab ownership, 10 stores, and 20 devices. Keep the original ASU introduction as substantive research context.",
+    "The summary distinguishes earlier robotics research and later engineering ownership. It does not imply that the latest Pause job was computer-vision work.",
+    "Tailor recent Pause scope toward infrastructure, integrations, data models, and hands-on software. The founding role mentions actual LLM work in its timeline, not as the primary vision evidence.",
+    "Keep the LLM companion as a reserve for a posting that explicitly requests it. Do not insert it into the eight primary bullets solely for recency or call the separate vision and LLM projects a multimodal system.",
+    "Retain older model-training and physical-robot work where relevant. Avoid claiming that the retail improvements came from personally training a new recognition model; the source attributes them to data-quality correction."
+  ],
+  "skillEvidence": [
+    "Imaging systems, ground truth, annotation systems, pipelines, and data quality are directly supported by the RadiusAI capture, class-definition, index, alignment, and recognition-improvement work.",
+    "ConvLSTM and MuJoCo are actual ASU research implementations. PyTorch comes from the plant diagnostics work; keep those methods in their dated research roles rather than suggesting current robotics employment.",
+    "OpenCV, NumPy, pandas, scikit-learn, SQL, PostgreSQL, Git, Linux, and model evaluation are registered master skills. Do not add ROS, SLAM, CUDA, TensorRT, or C++ based on what similar roles might request.",
+    "The patent remains under RadiusAI with its original named-inventor designation and contribution description."
+  ],
+  "contextReview": [
+    {
+      "id": "RAI-DS-01",
+      "needsRevision": false,
+      "reason": "The summary and opening bullet identify checkout imaging and product classification, including the hardware constraints and runtime result."
+    },
+    {
+      "id": "RAI-DS-06",
+      "needsRevision": false,
+      "reason": "The preceding imaging bullet supplies the recognition setting. The identity/class distinctions demonstrate computer-vision problem framing."
+    },
+    {
+      "id": "RAI-DS-02",
+      "needsRevision": false,
+      "reason": "Capture software and product identity build directly on the imaging and recognition-class bullets. No missing capture-system introduction here."
+    },
+    {
+      "id": "RAI-DS-04",
+      "needsRevision": false,
+      "reason": "Checkout imaging, recognition, and the capture pipeline are already defined. Ground-truth reconciliation is a clear next part of the same system."
+    },
+    {
+      "id": "RAI-DS-05",
+      "needsRevision": false,
+      "reason": "Immediately follows the index/error investigation it depends on. Retains the approximate metric and affected-SKU qualification."
+    },
+    {
+      "id": "RAI-DS-07",
+      "needsRevision": false,
+      "reason": "The computer-vision system is established earlier. Explicitly describes both independently captured event streams and the matching algorithm."
+    },
+    {
+      "id": "ASU-RA-00",
+      "needsRevision": false,
+      "reason": "New lab attribution and a self-contained quadcopter-simulation introduction establish the research setting. Explains functional pain through prediction-error/collision discrimination."
+    },
+    {
+      "id": "ASU-RA-01",
+      "needsRevision": false,
+      "reason": "The preceding bullet establishes the simulated robot and functional-pain model. The source of self-supervised labels is specific and meaningful; keep this pair ordered."
+    }
+  ],
+  "positioningScopeReview": {
+    "comparison": "resume-drafts/positioning-scope-review.md",
+    "summary": "Positioning only; no numeric results. Verify 2–3 actual rendered lines.",
+    "timeline": "Scope-only for roles with selected bullets; unselected technical context retained."
+  },
+  "workingDocument": {
+    "section1": "Target role / direction",
+    "section2": "Working resume draft and material",
+    "section3": "Original full resume",
+    "originalSourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903"
+  },
+  "primaryTargetDirection": {
+    "title": "ML data and evaluation, computer vision",
+    "source": "docs/targeting-brief.md"
+  }
+}

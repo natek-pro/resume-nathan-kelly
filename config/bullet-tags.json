@@ -1,0 +1,474 @@
+{
+  "tags": {
+    "engineering-leadership": {
+      "kind": "target",
+      "description": "Engineering manager, head of engineering, or hands-on technical leadership."
+    },
+    "applied-ai-engineering": {
+      "kind": "target",
+      "description": "Applied AI, LLM application engineering, or AI systems architecture."
+    },
+    "technical-product-leadership": {
+      "kind": "target",
+      "description": "Technical product management or product leadership."
+    },
+    "computer-vision-engineering": {
+      "kind": "target",
+      "description": "Computer vision, imaging, or perception systems."
+    },
+    "data-engineering": {
+      "kind": "target",
+      "description": "Data pipelines, data modeling, or training-data infrastructure."
+    },
+    "ml-research": {
+      "kind": "target",
+      "description": "Applied ML research, model development, or robotics research."
+    },
+    "ml-education": {
+      "kind": "target",
+      "description": "AI instruction, technical curriculum, or developer education."
+    },
+    "people-leadership": {
+      "kind": "capability",
+      "description": "Hiring, team building, coaching, or team/lab management."
+    },
+    "delivery": {
+      "kind": "capability",
+      "description": "Release cadence, execution practices, or cross-functional delivery."
+    },
+    "workflow-automation": {
+      "kind": "capability",
+      "description": "Automation of team, data, evaluation, or operational workflows."
+    },
+    "user-research": {
+      "kind": "capability",
+      "description": "User interviews, focus groups, feedback, or product validation."
+    },
+    "product-design": {
+      "kind": "capability",
+      "description": "Product interaction design, requirements, or product iteration."
+    },
+    "clinical-product": {
+      "kind": "capability",
+      "description": "Clinical criteria, medical advisory collaboration, or health-product requirements."
+    },
+    "systems-architecture": {
+      "kind": "capability",
+      "description": "Architecture and integration across software or hardware systems."
+    },
+    "cloud-backend": {
+      "kind": "capability",
+      "description": "Cloud infrastructure, backend development, APIs, or data services."
+    },
+    "production-operations": {
+      "kind": "capability",
+      "description": "Deployments, monitoring, stabilization, or live-system reliability."
+    },
+    "security-privacy": {
+      "kind": "capability",
+      "description": "Security remediation, access hardening, or privacy disclosures/controls."
+    },
+    "cloud-migration": {
+      "kind": "capability",
+      "description": "Planning cloud migration and coexistence with live services."
+    },
+    "llm-architecture": {
+      "kind": "capability",
+      "description": "Model integration, conversation state, or LLM application architecture."
+    },
+    "personalization": {
+      "kind": "capability",
+      "description": "User profiles, contextual observations, or personalized interactions."
+    },
+    "llm-evaluation": {
+      "kind": "capability",
+      "description": "Test conversations, instruction refinement, or regression checking."
+    },
+    "rapid-launch": {
+      "kind": "capability",
+      "description": "Early delivery and pragmatic validation with limited investment."
+    },
+    "model-development": {
+      "kind": "capability",
+      "description": "Implementing, training, or evaluating statistical or ML models."
+    },
+    "imaging-hardware": {
+      "kind": "capability",
+      "description": "Camera/lens selection, capture geometry, or hardware constraints."
+    },
+    "data-pipelines": {
+      "kind": "capability",
+      "description": "Capture, storage, metadata, or data-processing pipelines."
+    },
+    "data-modeling": {
+      "kind": "capability",
+      "description": "Data structures, identity systems, dataset versioning, or queryability."
+    },
+    "data-quality": {
+      "kind": "capability",
+      "description": "Annotation correctness, ground truth, catalog reconciliation, or error diagnosis."
+    },
+    "annotation-workflows": {
+      "kind": "capability",
+      "description": "Training-label generation, annotation tooling, or reviewer workflows."
+    },
+    "algorithm-design": {
+      "kind": "capability",
+      "description": "Custom matching, alignment, control, or other computational methods."
+    },
+    "customer-investor-communication": {
+      "kind": "capability",
+      "description": "Technical demonstrations or communication with customers and investors."
+    },
+    "forecasting": {
+      "kind": "capability",
+      "description": "Time-series modeling or prediction across future time horizons."
+    },
+    "diagnostics": {
+      "kind": "capability",
+      "description": "Anomaly investigation or diagnosis of model/system errors."
+    },
+    "robotics-simulation": {
+      "kind": "capability",
+      "description": "Robot simulation, learned dynamics, or simulated control/perception."
+    },
+    "robotics-hardware": {
+      "kind": "capability",
+      "description": "Physical robot or exoskeleton control and hardware deployment."
+    },
+    "self-supervised-learning": {
+      "kind": "capability",
+      "description": "Training with labels derived from the system rather than manual annotation."
+    },
+    "curriculum-development": {
+      "kind": "capability",
+      "description": "Course material, instructional visuals, or learning assignments."
+    },
+    "visual-motion": {
+      "kind": "capability",
+      "description": "Optical-flow or other visual motion estimation methods."
+    }
+  },
+  "roles": [
+    {
+      "code": "TPT-HPT",
+      "organization": "The Pause Technologies, Inc.",
+      "role": "Head of Product & Technology",
+      "defaultTags": [
+        "engineering-leadership",
+        "systems-architecture",
+        "delivery"
+      ],
+      "bullets": {
+        "939333b2e51379dd5b2d386011a131367cb7304b7bbcac18f7bf0def79b1a175": [
+          "engineering-leadership",
+          "people-leadership",
+          "delivery"
+        ],
+        "12d2e3bae4a3b678f92a4189038f31000f47c93bdcf647107ec5d74c010125e7": [
+          "engineering-leadership",
+          "delivery",
+          "production-operations"
+        ],
+        "98a6729b1da4241a7fb6e09f0e62ec6858be328e3d5b4b21c90b993a6de97739": [
+          "engineering-leadership",
+          "technical-product-leadership",
+          "delivery",
+          "workflow-automation"
+        ],
+        "69937e97c19ec15a88808cca4974b701ea476752e02bddf60d1670d9f74ee881": [
+          "technical-product-leadership",
+          "user-research",
+          "product-design"
+        ],
+        "b759d84727c11439d17cbeb96b61e0c652a992488ce419604c6d219cf0a5253c": [
+          "technical-product-leadership",
+          "clinical-product",
+          "product-design",
+          "systems-architecture"
+        ],
+        "cbf3d53af1ee2986a7408409b1ae30e08cede037e7d3ecb149dd5d56dda37dc0": [
+          "engineering-leadership",
+          "systems-architecture",
+          "cloud-backend"
+        ],
+        "582c7dd61c224d05e69ec8a888481d34e3515b151109652c76f1d2d4502226ac": [
+          "engineering-leadership",
+          "cloud-backend",
+          "production-operations",
+          "delivery"
+        ],
+        "c56c09d9531ee987972a9db12bb840278bb929892a0e84bb473c77968c462842": [
+          "engineering-leadership",
+          "systems-architecture",
+          "cloud-migration",
+          "cloud-backend"
+        ],
+        "0fd7892480b9674be56482029b29bf8dea2aee79fd4581a247f19fcee812a538": [
+          "engineering-leadership",
+          "production-operations",
+          "workflow-automation",
+          "cloud-backend"
+        ],
+        "8cf7c1b1307d2a52e8cd006b4fef424e9e92dfa53201d030d0c444dd76da1dca": [
+          "engineering-leadership",
+          "technical-product-leadership",
+          "security-privacy",
+          "production-operations"
+        ]
+      }
+    },
+    {
+      "code": "TPT-FEDS",
+      "organization": "The Pause Technologies, Inc.",
+      "role": "Founding Engineer & Data Scientist",
+      "defaultTags": [
+        "applied-ai-engineering",
+        "systems-architecture",
+        "cloud-backend"
+      ],
+      "bullets": {
+        "e9510014dd8e5857d11e8ede4bf1d4cda795ac27e2af94b8d0869f1f098d7a36": [
+          "applied-ai-engineering",
+          "technical-product-leadership",
+          "clinical-product",
+          "model-development",
+          "cloud-backend"
+        ],
+        "84785b006a9e5431621b9cb50a8376717c77d745aa5477ecb49bd904d28155e8": [
+          "technical-product-leadership",
+          "product-design",
+          "user-research"
+        ],
+        "2ddf3d13dfdbea678cde8ba162d0e74b5bf89f9632c47ab99884921e005911a5": [
+          "applied-ai-engineering",
+          "llm-architecture",
+          "systems-architecture",
+          "cloud-backend"
+        ],
+        "5971396253b06cdca7621ceb53149fcb7ee75a3af147066fa89a15c634e593d9": [
+          "applied-ai-engineering",
+          "llm-architecture",
+          "personalization",
+          "security-privacy"
+        ],
+        "53c817ee5c635c3842b5bd9d8172aefed6dde4641dd44769658747d8a5ee815e": [
+          "technical-product-leadership",
+          "applied-ai-engineering",
+          "rapid-launch",
+          "product-design",
+          "llm-architecture"
+        ],
+        "53fb5e395f1e2568e07bb6fbcc100b4976ab8beb89435ca61757693a2329c9c8": [
+          "applied-ai-engineering",
+          "llm-evaluation",
+          "user-research"
+        ],
+        "16224763dbd9549875bbb269f4688aafb05b0b37321ec850a4907888a246904d": [
+          "engineering-leadership",
+          "production-operations",
+          "security-privacy",
+          "cloud-backend"
+        ]
+      }
+    },
+    {
+      "code": "RAI-DS",
+      "organization": "RadiusAI",
+      "role": "Data Scientist",
+      "defaultTags": [
+        "computer-vision-engineering",
+        "data-pipelines",
+        "data-modeling"
+      ],
+      "bullets": {
+        "79b99dbc7527825d1f2d8857fd89943eb1ef8ce3a0cc9dab77cefc3df3fbc81b": [
+          "engineering-leadership",
+          "computer-vision-engineering",
+          "people-leadership",
+          "data-pipelines"
+        ],
+        "6e12c4dea23ebb42085104d0c214cdc46e6c0682fae65dbce6db7eb7135e91ad": [
+          "computer-vision-engineering",
+          "imaging-hardware",
+          "systems-architecture"
+        ],
+        "d8a50c91951e3535b4ae50c4e03a74dbe4cee061c43a0ab04f47fb5b3b96426f": [
+          "data-engineering",
+          "computer-vision-engineering",
+          "data-pipelines",
+          "data-modeling",
+          "workflow-automation"
+        ],
+        "f41ef06b81805a62e217ba8d387943a8f6ccc4f99865c8dfdb1a191f484b4d4a": [
+          "data-engineering",
+          "data-modeling",
+          "data-pipelines",
+          "imaging-hardware"
+        ],
+        "68d8ffe65aeb2e954d89ef95acccb8e193bb41e4e491829dfa679be1ae2d90ca": [
+          "data-engineering",
+          "computer-vision-engineering",
+          "data-quality",
+          "data-modeling",
+          "annotation-workflows"
+        ],
+        "78fbf94737dccdca4ca6a785033c6b88d4be247d359a902e2d65219333f13b85": [
+          "computer-vision-engineering",
+          "data-engineering",
+          "data-quality",
+          "annotation-workflows",
+          "data-modeling"
+        ],
+        "6218e69ebb4e8820dae1ed88f40842041b17b7bd824593b170d5d835343f6c9f": [
+          "computer-vision-engineering",
+          "data-modeling",
+          "product-design"
+        ],
+        "d29ab6b59f20e072c8e1d45a445331ccb15790afea6b496c42c47626e98fd75c": [
+          "data-engineering",
+          "computer-vision-engineering",
+          "algorithm-design",
+          "data-modeling"
+        ],
+        "63ef086d507a1cc071711c805520ba2e3a68529d697b54e6e6083a8a69d9eeeb": [
+          "data-engineering",
+          "computer-vision-engineering",
+          "annotation-workflows",
+          "workflow-automation",
+          "data-quality"
+        ],
+        "96a94fb7d6ea0028e53504aa2bae079929498f2f7e10c9c0c578b068458ffc41": [
+          "technical-product-leadership",
+          "computer-vision-engineering",
+          "customer-investor-communication",
+          "product-design",
+          "imaging-hardware"
+        ]
+      }
+    },
+    {
+      "code": "ASU-ARSI",
+      "organization": "Arizona State University",
+      "role": "Applied Research and Summer Internship",
+      "defaultTags": [
+        "ml-research",
+        "model-development",
+        "diagnostics"
+      ],
+      "bullets": {
+        "a5d5f4c2a8bb5d9c5bd9966013b00818a25116011f4060ee17e57248a459cf69": [
+          "ml-research",
+          "model-development",
+          "diagnostics"
+        ],
+        "894e2d7d75a5ef5cf2d33b66ea2e713a4bc9ec5a1abba66702b39c9f61e2719c": [
+          "ml-research",
+          "model-development",
+          "forecasting"
+        ],
+        "d2dc34f7b7e726763a75772fa88373b28d8a7ef8d379f9c0536e7d23e857d22a": [
+          "ml-research",
+          "data-quality",
+          "diagnostics",
+          "customer-investor-communication"
+        ],
+        "d4955968958f989799528db575cfb8f67d26acb82ad432d02b87184f7108bab4": [
+          "applied-ai-engineering",
+          "ml-research",
+          "model-development",
+          "diagnostics",
+          "product-design"
+        ]
+      }
+    },
+    {
+      "code": "ASU-RA",
+      "organization": "Arizona State University",
+      "role": "Research Assistant",
+      "defaultTags": [
+        "ml-research",
+        "model-development",
+        "robotics-simulation"
+      ],
+      "bullets": {
+        "0834e28bb678cc821d940918e6dfcbbd90ad6695e26dc232722174ac1d411a44": [
+          "ml-research",
+          "model-development",
+          "robotics-simulation",
+          "diagnostics"
+        ],
+        "6801fe4bec06cbaa8ff4aea612ec9d4b2a6d38f8f0a396a5ddd82ee7106840f6": [
+          "ml-research",
+          "computer-vision-engineering",
+          "model-development",
+          "robotics-simulation",
+          "self-supervised-learning"
+        ],
+        "c6def3016d22c40d162158e9fedcf0792cf82928ebd385bb83258e5a4eb2e1e9": [
+          "ml-research",
+          "robotics-simulation",
+          "algorithm-design"
+        ],
+        "487c8ea65648c2095c23816ea206fee52ef622fd54d61a646679ce5c14c03887": [
+          "ml-research",
+          "robotics-hardware",
+          "algorithm-design"
+        ]
+      }
+    },
+    {
+      "code": "ASU-TA",
+      "organization": "Arizona State University",
+      "role": "Teaching Assistant",
+      "defaultTags": [
+        "ml-education",
+        "curriculum-development",
+        "model-development"
+      ],
+      "bullets": {
+        "13398fc97ab1c6c15363d337dd48c3e4d5d83b8a95592880c19adb30af6d01e9": [
+          "ml-education",
+          "curriculum-development",
+          "model-development"
+        ],
+        "46d3888c2c25ded2b4ceec3e648f1bd26a3283aa7f15f90e37cd895630d8ccf1": [
+          "ml-education",
+          "curriculum-development",
+          "model-development",
+          "robotics-simulation",
+          "workflow-automation"
+        ],
+        "9e21a28d0b94af54f69df11c7c32d9fd9374f6a95d2e3a80b6450fa3116c7ec4": [
+          "ml-education",
+          "curriculum-development",
+          "model-development"
+        ]
+      }
+    },
+    {
+      "code": "ASU-UR",
+      "organization": "Arizona State University",
+      "role": "Undergraduate Research",
+      "defaultTags": [
+        "ml-research",
+        "robotics-simulation",
+        "algorithm-design"
+      ],
+      "bullets": {
+        "a88809c35b5e15242c0cc4e606c90a526dbcd47d895a81674ba0f75761b980f1": [
+          "ml-research",
+          "computer-vision-engineering",
+          "algorithm-design",
+          "visual-motion"
+        ],
+        "d4525641cca206fb0348fb06a140350b456c2abc09e436340c6772646764723e": [
+          "ml-research",
+          "robotics-simulation",
+          "robotics-hardware",
+          "algorithm-design"
+        ]
+      }
+    }
+  ]
+}

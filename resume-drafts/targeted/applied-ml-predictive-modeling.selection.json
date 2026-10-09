@@ -1,0 +1,127 @@
+{
+  "direction": "Applied ML & Predictive Modeling",
+  "purpose": "Applied ML engineer, predictive-modeling data scientist, and industrial or time-series ML roles: neural-network and LSTM prediction, baseline comparison, PCA/autoencoder diagnostics, tools for domain engineers, and reliable training-data systems.",
+  "sourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903",
+  "publicDraftSha256": "2ad2d7cafb64e0fd3ae43f1624f282814ec9f82c81c0a1c33c7f0e33a3fe8065",
+  "groupedSelection": "resume-subsets-grouped/applied-ml-predictive-modeling.md",
+  "groups": [
+    {
+      "title": "Forecasting & Diagnosing Power-Plant Behavior",
+      "bullets": [
+        {
+          "id": "ASU-ARSI-00",
+          "sha256": "a5d5f4c2a8bb5d9c5bd9966013b00818a25116011f4060ee17e57248a459cf69"
+        },
+        {
+          "id": "ASU-ARSI-01",
+          "sha256": "894e2d7d75a5ef5cf2d33b66ea2e713a4bc9ec5a1abba66702b39c9f61e2719c"
+        },
+        {
+          "id": "ASU-ARSI-02",
+          "sha256": "d2dc34f7b7e726763a75772fa88373b28d8a7ef8d379f9c0536e7d23e857d22a"
+        },
+        {
+          "id": "ASU-ARSI-03",
+          "sha256": "d4955968958f989799528db575cfb8f67d26acb82ad432d02b87184f7108bab4"
+        }
+      ]
+    },
+    {
+      "title": "Improving Retail Training Data & Recognition",
+      "bullets": [
+        {
+          "id": "RAI-DS-03",
+          "sha256": "f41ef06b81805a62e217ba8d387943a8f6ccc4f99865c8dfdb1a191f484b4d4a"
+        },
+        {
+          "id": "RAI-DS-04",
+          "sha256": "68d8ffe65aeb2e954d89ef95acccb8e193bb41e4e491829dfa679be1ae2d90ca"
+        },
+        {
+          "id": "RAI-DS-05",
+          "sha256": "78fbf94737dccdca4ca6a785033c6b88d4be247d359a902e2d65219333f13b85"
+        }
+      ]
+    },
+    {
+      "title": "Implementing a Clinical Assessment",
+      "bullets": [
+        {
+          "id": "TPT-FEDS-00",
+          "sha256": "e9510014dd8e5857d11e8ede4bf1d4cda795ac27e2af94b8d0869f1f098d7a36"
+        }
+      ]
+    }
+  ],
+  "scopeDecisions": [
+    "Retain the fifth direction and the agreed order: industrial forecasting/diagnostics first, commercial training-data systems second, and the recent clinical assessment third. The older modeling work leads because it is the directly relevant evidence.",
+    "The summary identifies the forecasting evidence as research and describes later commercial and software work separately. Do not imply recent industrial-ML employment.",
+    "Preserve the source qualifier that the clinical assessment uses rules and a light statistical model for edge cases. Do not market it as a deep-learning or LLM classifier.",
+    "Tailor Head of Product toward production systems, integrations, business logic, and data models. LLM application architecture remains accurate career context in the founding-role timeline, not this version’s headline or skills focus.",
+    "Keep the original ASU introduction and the method-rich internship scope. The RA scope emphasizes predictive dynamics and model-error interpretation instead of giving all robotics hardware details equal space.",
+    "Keep versioned datasets, the ground-truth index, and its measured recognition improvement together. Preserve project-testing and baseline qualifications in the forecasting source bullets."
+  ],
+  "skillEvidence": [
+    "Neural-network forecasting, LSTM, PCA, autoencoders, multivariate sensor diagnostics, and PyTorch tools are direct ASU internship work.",
+    "Training-data versioning, ground truth, and error investigation are direct RadiusAI work. Model evaluation is supported by the prediction-method comparisons and the registered master skills.",
+    "Python/Django, data pipelines, SQL/PostgreSQL, Git, Linux, and CI/CD are supported by master skills and later software/production work. Do not add XGBoost, forecasting libraries, TensorFlow, or industrial deployment claims absent from the source.",
+    "This version’s skills intentionally do not repeat the LLM/cloud-services list used in the Applied AI and solutions copies."
+  ],
+  "contextReview": [
+    {
+      "id": "ASU-ARSI-00",
+      "needsRevision": false,
+      "reason": "Power-plant heading and Salt River Project attribution establish the domain. States model, inputs, task, and baseline without inventing a gain percentage."
+    },
+    {
+      "id": "ASU-ARSI-01",
+      "needsRevision": true,
+      "reason": "The baseline comparison is meaningful but “sensor readings from the time being predicted” takes rereading. Clarify the contrast between forecasting and the formula’s contemporaneous readings while preserving “in project testing” and avoiding an unsupported validation claim."
+    },
+    {
+      "id": "ASU-ARSI-02",
+      "needsRevision": false,
+      "reason": "Plant, fuel rate, and prediction errors are established. Distinguishes identifying anomalous readings from confirming actual sensor faults."
+    },
+    {
+      "id": "ASU-ARSI-03",
+      "needsRevision": false,
+      "reason": "The diagnostic context is supplied by the preceding bullet. The application’s users and capabilities are defined, without claiming industrial deployment."
+    },
+    {
+      "id": "RAI-DS-03",
+      "needsRevision": true,
+      "reason": "First RadiusAI bullet introduces “captures” and hardware configurations without explaining what was captured. Identify checkout images/capture data and the computer-vision setting; retain versioning and cross-hardware reuse as the ML-data contribution."
+    },
+    {
+      "id": "RAI-DS-04",
+      "needsRevision": false,
+      "reason": "Fits the data-quality narrative. The flagged RAI-DS-03 introduction can establish the system for this group; this bullet introduces the index used in the next result."
+    },
+    {
+      "id": "RAI-DS-05",
+      "needsRevision": false,
+      "reason": "The prior bullet establishes errors and the index. Clear quality-to-recognition result, with its original metric qualification."
+    },
+    {
+      "id": "TPT-FEDS-00",
+      "needsRevision": false,
+      "reason": "Defines a distinct clinical assessment and its implementation. Explicitly limits the statistical model to edge cases rather than presenting rules as a trained ML system."
+    }
+  ],
+  "positioningScopeReview": {
+    "comparison": "resume-drafts/positioning-scope-review.md",
+    "summary": "Positioning only; no numeric results. Verify 2–3 actual rendered lines.",
+    "timeline": "Scope-only for roles with selected bullets; unselected technical context retained."
+  },
+  "workingDocument": {
+    "section1": "Target role / direction",
+    "section2": "Working resume draft and material",
+    "section3": "Original full resume",
+    "originalSourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903"
+  },
+  "primaryTargetDirection": {
+    "title": "Applied ML and predictive modeling",
+    "source": "docs/targeting-brief.md"
+  }
+}

@@ -2,7 +2,26 @@
 
 The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
 
-Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage** workflow automatically regenerates and commits `.github/README.md` after source or generator changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and commit the generated file with your source change. `npm run check:readme` detects a stale display copy.
+Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage and bullet catalog** workflow automatically regenerates and commits `.github/README.md` and `docs/bullet-catalog.md` after source or relevant generator/tag changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and `npm run catalog` and commit the generated files with your source change. `npm run check:readme` detects a stale display copy.
+
+## Agent bullet catalog
+
+`docs/bullet-catalog.md` is a tracked, generated index for selecting resume subsets. It contains the exact Markdown text of each Professional Experience list bullet, grouped by organization and role, with targeting/capability tags and a review status. It excludes prose role descriptions, the patent block, and other sections; the master source remains authoritative for those.
+
+```sh
+npm run catalog
+npm run check:catalog
+npm run check:catalog -- --require-reviewed
+npm run test:catalog
+```
+
+Identifiers use a registered company/role prefix and a zero-based index: `TPT-HPT-02` is the third Head of Product & Technology bullet; `TPT-FEDS-00` is the first Founding Engineer & Data Scientist bullet. The index resets per role and changes after inserting/removing/reordering bullets. The catalog embeds a SHA-256 of the complete source; store it with a selection to detect drift. These are readable positional references, not permanent identifiers.
+
+`config/bullet-tags.json` defines role prefixes, tag vocabulary, broad fallback tags, and reviewed per-bullet tags keyed by SHA-256 of the bullet's Markdown text (excluding the list marker and trailing whitespace). Fingerprint matching prevents reviewed tags from shifting to unrelated bullets when indexes move. New/changed bullets receive only broad role defaults and are visibly marked pending; editing bolding also triggers review. Adding or renaming a role requires an explicit mapping, and unsupported nested/task/ordered experience lists fail rather than silently dropping evidence.
+
+After a source edit, rebuild and have an agent read pending text in context, select evidence-supported tags from the vocabulary, and register the displayed fingerprint under the correct role. Remove obsolete entries; add vocabulary terms only when useful and defensible. Rebuild again and run the strict reviewed check. Detailed agent instructions are in `AGENTS.md`. Tags guide selection; they do not add resume claims or calculate a job-fit score.
+
+`npm run build` rebuilds the catalog, and `npm run check` checks its freshness. CI tests the parser, rebuilds the catalog, and checks freshness; the main-only homepage workflow commits the generated document. Automation keeps text synchronized, but pending tag review is reported rather than guessed. Freshness passes with pending tags; `--require-reviewed` is the separate acceptance check for agent-maintained metadata. Catalog generation does not alter the resume source or require browser/PDF rendering.
 
 ## Outputs and privacy
 
@@ -53,6 +72,22 @@ pdftotext -layout output/pdf/drafts/resume.pdf tmp/review/text.txt
 ```
 
 The source checker rejects email addresses and common formatted phone numbers in the public Markdown. Keep the `Phoenix, AZ` contact line intact; the private builder uses that one line as its injection point. Do not put personal contact values in code, tests, documentation, or workflow configuration.
+
+## Local targeted review drafts
+
+Working draft Markdown contains three sections: target direction, the working resume plus supporting material, and a verbatim full-source reference. `scripts/assemble-working-drafts.mjs` creates or refreshes the wrapper from `docs/targeting-brief.md` and the live `resume_source.md`, preserving the marked working body. Its `--check` mode verifies reference freshness and document hashes. Both review exporters use `resume-drafts/working-document.mjs` to extract only that body for rendering; incomplete markers fail closed. Plain standalone Markdown remains supported. PDF text checks and bullet fingerprint checks must use the extracted working body, not the context wrapper or copied master.
+
+The Applied AI experiment is documented in `resume-drafts/README.md`; the other four direction-specific drafts are indexed in `resume-drafts/targeted/README.md`. These are editorial proposals with generated wording in red, not publication inputs or alternate master sources. Their selection manifests bind copied bullets to the master hash and exact Markdown fingerprints.
+
+The context-review pass marks unchanged bullets needing revision with blue `needs-revision` spans. Decisions for every selected occurrence are in `resume-drafts/bullet-context-review.md`; marked PDFs use `-context-review.pdf`. Remove review spans only in temporary text-check inputs, and strip these spans when verifying copied bullet fingerprints. Color markup is not a wording change.
+
+`resume-drafts/export-targeted-review.mjs` requires explicit source and output arguments, resolves both from the repository root, and reuses the template, base stylesheet, browser restrictions, and continuation-header helper. It adds the review stylesheet and timeline/Education classes without changing the master exporter. For example:
+
+```sh
+node resume-drafts/export-targeted-review.mjs resume-drafts/targeted/computer-vision-ml-data-systems.md output/pdf/drafts/computer-vision-public-review.pdf
+```
+
+Application review Markdown and any diagnostics containing contact details belong under ignored `.private/`; review PDFs belong under ignored `output/pdf/drafts/`. Do not print private rendering logs or commit the application copies. Inspect every page and rerun content, font, date, and link checks after changes. These drafts do not participate in CI publication.
 
 ## GitHub Actions
 

@@ -1,0 +1,126 @@
+{
+  "direction": "Hands-on Engineering Leadership",
+  "purpose": "Hands-on engineering manager and small-team head of engineering roles, especially AI-enabled product teams: hiring, team development, delivery improvement, technical ownership, and production operations while retaining direct implementation evidence.",
+  "sourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903",
+  "publicDraftSha256": "ad6cb3cac8233a2f732e5a63f4ae2c2c3c77e4462c3464078e13090ac6067ab1",
+  "groupedSelection": "resume-subsets-grouped/hands-on-engineering-leadership.md",
+  "groups": [
+    {
+      "title": "Building Teams & Improving Delivery",
+      "bullets": [
+        {
+          "id": "TPT-HPT-00",
+          "sha256": "939333b2e51379dd5b2d386011a131367cb7304b7bbcac18f7bf0def79b1a175"
+        },
+        {
+          "id": "TPT-HPT-01",
+          "sha256": "12d2e3bae4a3b678f92a4189038f31000f47c93bdcf647107ec5d74c010125e7"
+        },
+        {
+          "id": "RAI-DS-00",
+          "sha256": "79b99dbc7527825d1f2d8857fd89943eb1ef8ce3a0cc9dab77cefc3df3fbc81b"
+        }
+      ]
+    },
+    {
+      "title": "Building AI Features Hands-on",
+      "bullets": [
+        {
+          "id": "TPT-FEDS-02",
+          "sha256": "2ddf3d13dfdbea678cde8ba162d0e74b5bf89f9632c47ab99884921e005911a5"
+        },
+        {
+          "id": "TPT-FEDS-00",
+          "sha256": "e9510014dd8e5857d11e8ede4bf1d4cda795ac27e2af94b8d0869f1f098d7a36"
+        }
+      ]
+    },
+    {
+      "title": "Stabilizing Production & Reducing Technical Debt",
+      "bullets": [
+        {
+          "id": "TPT-FEDS-06",
+          "sha256": "16224763dbd9549875bbb269f4688aafb05b0b37321ec850a4907888a246904d"
+        },
+        {
+          "id": "TPT-HPT-06",
+          "sha256": "582c7dd61c224d05e69ec8a888481d34e3515b151109652c76f1d2d4502226ac"
+        },
+        {
+          "id": "TPT-HPT-08",
+          "sha256": "0fd7892480b9674be56482029b29bf8dea2aee79fd4581a247f19fcee812a538"
+        }
+      ]
+    }
+  ],
+  "scopeDecisions": [
+    "Lead with hiring, the first in-house team, and delivery improvement; retain direct LLM architecture and classifier implementation before production and technical-debt evidence.",
+    "Keep the original Head of Product executive scope. Do not replace CEO reporting, team development, or investor communication with a generic hands-on summary.",
+    "Specify up to six people across engineering and design, not six engineers. The earlier RadiusAI team is a five-person data-collection lab, not an engineering department.",
+    "Keep the mixed-employer team-building group from the agreed selection, with explicit attribution at every source-role switch. Repeat attribution at a new group so production work is not assigned to the wrong Pause role.",
+    "Keep HPT-06 technical-debt remediation and HPT-08 CI/CD ownership. Workflow tooling remains reserve material rather than displacing those stronger management contributions.",
+    "The summary describes actual small-team leadership; it does not imply management of managers, a large department, or later hands-on model-training work."
+  ],
+  "skillEvidence": [
+    "Hiring, engineer development/coaching, delivery, stakeholder management, and requirements practices come from the master competencies, role scope, and skills.",
+    "Python/Django and LLM architecture are anchored in the founding-role implementation bullets. Flutter, AWS, Azure, and API ownership are supported by the technical-direction source bullet.",
+    "CI/CD, production operations, and Sentry are explicit Head of Product work. Keep technical tools in support of leadership rather than turning this into a forecasting or computer-vision skills list."
+  ],
+  "contextReview": [
+    {
+      "id": "TPT-HPT-00",
+      "needsRevision": false,
+      "reason": "Employer/title attribution identifies the company; team size includes design, and hiring responsibilities are concrete."
+    },
+    {
+      "id": "TPT-HPT-01",
+      "needsRevision": false,
+      "reason": "The preceding bullet introduces the in-house team. Clear cadence comparison and cost context support delivery leadership without inventing a cost metric."
+    },
+    {
+      "id": "RAI-DS-00",
+      "needsRevision": true,
+      "reason": "At the employer switch, “the system’s initial training dataset” has no antecedent. Name the computer-vision assisted-checkout system the lab supported; retain lab operations and its five-person team as the leadership point."
+    },
+    {
+      "id": "TPT-FEDS-02",
+      "needsRevision": true,
+      "reason": "The summary positions a hands-on leader but does not identify the specific platform. “The product” needs a short platform description when this separate hands-on group begins; preserve direct architecture evidence."
+    },
+    {
+      "id": "TPT-FEDS-00",
+      "needsRevision": false,
+      "reason": "Self-contained domain, clinical validation, and implementation evidence. Good counterweight to management claims; rules/statistical-model qualification stays intact."
+    },
+    {
+      "id": "TPT-FEDS-06",
+      "needsRevision": true,
+      "reason": "This new production group introduces an unnamed inherited system. Clarify that platform scope so the reader can distinguish stabilization from the preceding LLM feature work."
+    },
+    {
+      "id": "TPT-HPT-06",
+      "needsRevision": false,
+      "reason": "AWS/Django is established in the earlier architecture bullet; role attribution identifies the later leadership work. Delivery alongside remediation is explicit and relevant."
+    },
+    {
+      "id": "TPT-HPT-08",
+      "needsRevision": false,
+      "reason": "Concrete production ownership and incident work support player-coach roles. Continues the explicitly attributed Head of Product role; no external system referent is required."
+    }
+  ],
+  "positioningScopeReview": {
+    "comparison": "resume-drafts/positioning-scope-review.md",
+    "summary": "Positioning only; no numeric results. Verify 2–3 actual rendered lines.",
+    "timeline": "Scope-only for roles with selected bullets; unselected technical context retained."
+  },
+  "workingDocument": {
+    "section1": "Target role / direction",
+    "section2": "Working resume draft and material",
+    "section3": "Original full resume",
+    "originalSourceSha256": "9199f58526e75d07ec696c144bea6872c3afa5f2f0de3d8ee06dbfdefa426903"
+  },
+  "primaryTargetDirection": {
+    "title": "Hands-on engineering leadership",
+    "source": "docs/targeting-brief.md"
+  }
+}

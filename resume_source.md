@@ -88,7 +88,7 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 - Applied PCA and autoencoders to time series of **more than 2,000 plant metrics**, narrowing investigation of fuel-rate prediction errors to a few anomalous sensor readings. Presented these to plant engineers for investigation of possible sensor faults or operating conditions.
 - Implemented **diagnostic models in PyTorch** and built an application that let power-plant engineers without machine-learning or computer-science backgrounds process datasets and train multiple model types.
 
-#### Research Assistant — 2019–2021
+#### Research Assistant — August 2019–May 2021
 
 *Interactive Robotics Lab*
 
@@ -97,7 +97,7 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 - Implemented central pattern generators for leg-joint control in a MuJoCo simulation of Agility Robotics’ Cassie biped, producing initial standing and basic stepping behavior. Explored evolutionary algorithms for optimizing the generators.
 - Compiled and deployed **custom movement-control code** on a physical Ghost Robotics Minitaur quadruped.
 
-#### Teaching Assistant — January–July 2020
+#### Teaching Assistant — January 2020–July 2020
 
 *ASU Online · CSE 571 — Artificial Intelligence · Graduate course*
 

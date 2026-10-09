@@ -24,6 +24,7 @@ async function collect(directory) {
 await collect('scripts');
 await collect('templates');
 await collect('docs');
+await collect('config');
 await collect('tests');
 await collect('.github');
 // A fresh clone may not have any local PDF exports yet.

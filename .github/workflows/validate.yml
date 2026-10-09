@@ -49,10 +49,12 @@ jobs:
         run: |
           test -f /System/Library/Fonts/Supplemental/Georgia.ttf
           test -f "$RESUME_HEADER_FONT"
-      - name: Test privacy helpers
+      - name: Test privacy helpers and bullet catalog
         run: npm test
       - name: Build draft
         run: npm run build
+      - name: Check generated bullet catalog
+        run: npm run check:catalog
       - name: Check web content and responsive layout
         run: npm run check:web
       - name: Record validated web hash

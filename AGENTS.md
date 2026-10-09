@@ -7,9 +7,12 @@ This directory is a self-contained resume source and PDF generator. All paths be
 - Active wording and emphasis: `resume_source.md`.
 - Current reviewed export: `output/pdf/Nathan-Kelly-Resume.pdf`.
 - Operational reference: `docs/generator.md`.
+- Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
 
 ## Editorial practices
+
+- For tailoring, the target career directions in `docs/targeting-brief.md` and the **complete** `resume_source.md` are the primary context. Read them before writing or assessing a variant. Current bullet selections and draft prose are downstream choices, not the boundary of relevant experience. Establish target fit and career level from the full background before editing for repetition or layout.
 
 - Exercise editorial judgment. The user's explanations supply evidence, not an obligation to include every detail. Preserve meaningful technical substance; avoid padding and indiscriminate shortening.
 - For substantive wording, emphasis, or structural proposals, show original and proposed text, explain the tradeoff, and obtain approval before applying. Existing approval carries forward; do not ask again for an already approved change.
@@ -30,6 +33,17 @@ This directory is a self-contained resume source and PDF generator. All paths be
 | `scripts/check-export.py` | Compares normalized source letters/numbers with extracted PDF text in order. |
 | `scripts/check-fonts.py` | Rejects rendered font substitutions and emits a per-page font report. |
 | `scripts/snapshot-resume.mjs` | Saves source, generator, documentation, configuration, and top-level PDF exports with SHA-256 hashes. |
+| `scripts/generate-bullet-catalog.mjs` | Copies experience bullets into the agent catalog with role-relative indexes and fingerprint-bound targeting tags. |
+
+## Bullet catalog maintenance and selection
+
+- Read `docs/bullet-catalog.md` before selecting bullets for a resume variant, then verify freshness with `npm run check:catalog`. The catalog is an index, not an alternate editing source. Never edit its generated text directly.
+- IDs use `company-role-00`, starting at zero within each role. Prefixes are registered in `config/bullet-tags.json`. IDs are positional: insertions, removals, and reorders can change them. Record the catalog's source SHA-256 with any selection and verify the text before reusing older selections.
+- After any `resume_source.md` change, run `npm run catalog`. `npm run build` also rebuilds it. The main-only homepage workflow regenerates and commits both the README and catalog automatically. Generation copies text exactly; it does not invent or rewrite accomplishments.
+- An agent must review tags after new/changed bullets. Run `npm run catalog`, read pending entries and the corresponding source/role context, and add an entry in that role's `bullets` object in `config/bullet-tags.json`, keyed by the bullet SHA-256 printed in the catalog. Choose at least three unique registered tags, including at least one `target` tag and evidence-supported `capability` tags. Targets indicate possible application directions, not claims of having held those titles. Use editorial judgment; do not tag tools, responsibilities, or outcomes absent from the evidence.
+- Reviewed tags follow exact bullet Markdown by fingerprint, even when reordered. Wording or bolding edits produce a new fingerprint and pending review; do not blindly copy old tags. Pending bullets have broad role defaults, explicitly marked as unreviewed. Remove obsolete fingerprint entries after assessing the edit. A new or renamed organization/role requires updating its explicit mapping; preserve existing prefixes where the role identity is unchanged.
+- Rebuild after metadata edits, then run `npm run check:catalog -- --require-reviewed` and `npm run test:catalog`. Commit the source, metadata, and generated catalog together when applicable. Freshness checks alone permit pending tags; the strict flag rejects them. GitHub Actions can rebuild text but cannot supply semantic tag review.
+- The catalog covers Professional Experience list bullets. Read role descriptions, the patent block, summary, competencies, education, and skills separately when tailoring a resume. Their absence from the catalog does not make them irrelevant. Selecting/rewriting a variant still follows the editorial approval rules above.
 
 The exporter resolves source/output arguments relative to this directory, blocks browser network requests, waits for fonts, and writes temporary files before atomically replacing the destination on successful export. Rendering success alone is not visual or ATS approval.
 
