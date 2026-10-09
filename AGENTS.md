@@ -9,10 +9,9 @@ This directory is a self-contained resume source and PDF generator. All paths be
 - Operational reference: `docs/generator.md`.
 - Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
+- Targeted resume drafting lives in the separate [resume-targeted project](../resume-targeted/AGENTS.md). Its [targeting brief](../resume-targeted/docs/targeting-brief.md) is the single source of truth for variant drafting rules. This project’s master-layout and publication rules do not govern those drafts.
 
 ## Editorial practices
-
-- For tailoring, the target career directions in `docs/targeting-brief.md` and the **complete** `resume_source.md` are the primary context. Read them before writing or assessing a variant. Current bullet selections and draft prose are downstream choices, not the boundary of relevant experience. Establish target fit and career level from the full background before editing for repetition or layout.
 
 - Exercise editorial judgment. The user's explanations supply evidence, not an obligation to include every detail. Preserve meaningful technical substance; avoid padding and indiscriminate shortening.
 - For substantive wording, emphasis, or structural proposals, show original and proposed text, explain the tradeoff, and obtain approval before applying. Existing approval carries forward; do not ask again for an already approved change.
@@ -79,7 +78,7 @@ Do not edit immutable snapshots. Restore by copying one into a separate draft di
 
 The current design is single-column US Letter, Georgia 10.5 pt, 1.25 line height, 0.62-inch vertical and 0.72-inch horizontal margins. Organization headers are larger than role headers; dates and locations align right without a leading dash. Optional descriptions and ASU units sit on separate italic lines. Continuation headers identify the role continuing at the top of each page, with a page counter at right.
 
-Four pages is the reviewed result, not an invariant. Small changes can push the last skills lines onto a mostly empty fifth page. Inspect pagination after every meaningful change; do not force four pages by shrinking text excessively or cutting unapproved content.
+Four pages is the reviewed master result, not an invariant or a targeted-resume rule. Small changes can push the last skills lines onto a mostly empty fifth page. Inspect pagination after every meaningful change; do not force four pages by shrinking text excessively or cutting unapproved content.
 
 ## Text extraction limits
 

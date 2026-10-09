@@ -73,21 +73,11 @@ pdftotext -layout output/pdf/drafts/resume.pdf tmp/review/text.txt
 
 The source checker rejects email addresses and common formatted phone numbers in the public Markdown. Keep the `Phoenix, AZ` contact line intact; the private builder uses that one line as its injection point. Do not put personal contact values in code, tests, documentation, or workflow configuration.
 
-## Local targeted review drafts
+## Targeted resume project
 
-Working draft Markdown contains three sections: target direction, the working resume plus supporting material, and a verbatim full-source reference. `scripts/assemble-working-drafts.mjs` creates or refreshes the wrapper from `docs/targeting-brief.md` and the live `resume_source.md`, preserving the marked working body. Its `--check` mode verifies reference freshness and document hashes. Both review exporters use `resume-drafts/working-document.mjs` to extract only that body for rendering; incomplete markers fail closed. Plain standalone Markdown remains supported. PDF text checks and bullet fingerprint checks must use the extracted working body, not the context wrapper or copied master.
+Targeted drafting has moved to the sibling [resume-targeted project](../../resume-targeted/README.md). Read its [targeting brief](../../resume-targeted/docs/targeting-brief.md) for drafting rules and its [generator guide](../../resume-targeted/docs/generator.md) for commands. It owns copies of the renderer, template, styles, continuation helper, and checks; it reads a pinned public master input and reports drift without changing this source.
 
-The Applied AI experiment is documented in `resume-drafts/README.md`; the other four direction-specific drafts are indexed in `resume-drafts/targeted/README.md`. These are editorial proposals with generated wording in red, not publication inputs or alternate master sources. Their selection manifests bind copied bullets to the master hash and exact Markdown fingerprints.
-
-The context-review pass marks unchanged bullets needing revision with blue `needs-revision` spans. Decisions for every selected occurrence are in `resume-drafts/bullet-context-review.md`; marked PDFs use `-context-review.pdf`. Remove review spans only in temporary text-check inputs, and strip these spans when verifying copied bullet fingerprints. Color markup is not a wording change.
-
-`resume-drafts/export-targeted-review.mjs` requires explicit source and output arguments, resolves both from the repository root, and reuses the template, base stylesheet, browser restrictions, and continuation-header helper. It adds the review stylesheet and timeline/Education classes without changing the master exporter. For example:
-
-```sh
-node resume-drafts/export-targeted-review.mjs resume-drafts/targeted/computer-vision-ml-data-systems.md output/pdf/drafts/computer-vision-public-review.pdf
-```
-
-Application review Markdown and any diagnostics containing contact details belong under ignored `.private/`; review PDFs belong under ignored `output/pdf/drafts/`. Do not print private rendering logs or commit the application copies. Inspect every page and rerun content, font, date, and link checks after changes. These drafts do not participate in CI publication.
+The current master keeps its publication flow, ASU date corrections, and bullet-catalog automation. The pre-separation state is preserved by local commit `606f92f` and the immutable snapshot `versions/2026-10-09-before-targeted-project-separation/`. Migrated local working files are archived under ignored `reference/targeted-project-migration/`; local targeted application copies are under `.private/targeted-project-archive/`. No remote was pushed.
 
 ## GitHub Actions
 
