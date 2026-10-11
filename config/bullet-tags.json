@@ -192,22 +192,10 @@
           "systems-architecture",
           "cloud-backend"
         ],
-        "582c7dd61c224d05e69ec8a888481d34e3515b151109652c76f1d2d4502226ac": [
-          "engineering-leadership",
-          "cloud-backend",
-          "production-operations",
-          "delivery"
-        ],
         "c56c09d9531ee987972a9db12bb840278bb929892a0e84bb473c77968c462842": [
           "engineering-leadership",
           "systems-architecture",
           "cloud-migration",
-          "cloud-backend"
-        ],
-        "0fd7892480b9674be56482029b29bf8dea2aee79fd4581a247f19fcee812a538": [
-          "engineering-leadership",
-          "production-operations",
-          "workflow-automation",
           "cloud-backend"
         ],
         "8cf7c1b1307d2a52e8cd006b4fef424e9e92dfa53201d030d0c444dd76da1dca": [
@@ -215,6 +203,19 @@
           "technical-product-leadership",
           "security-privacy",
           "production-operations"
+        ],
+        "0f886a56478aaed812d4da91682d1e9dd85f93143386f92a71875d9e83713709": [
+          "engineering-leadership",
+          "cloud-backend",
+          "production-operations",
+          "delivery"
+        ],
+        "c2657193737114b4e410f83565163e84f9a6dd5165433f7610bbe9d3467f64b5": [
+          "engineering-leadership",
+          "production-operations",
+          "workflow-automation",
+          "cloud-backend",
+          "security-privacy"
         ]
       }
     },
@@ -228,13 +229,6 @@
         "cloud-backend"
       ],
       "bullets": {
-        "e9510014dd8e5857d11e8ede4bf1d4cda795ac27e2af94b8d0869f1f098d7a36": [
-          "applied-ai-engineering",
-          "technical-product-leadership",
-          "clinical-product",
-          "model-development",
-          "cloud-backend"
-        ],
         "84785b006a9e5431621b9cb50a8376717c77d745aa5477ecb49bd904d28155e8": [
           "technical-product-leadership",
           "product-design",
@@ -259,12 +253,19 @@
           "product-design",
           "llm-architecture"
         ],
-        "53fb5e395f1e2568e07bb6fbcc100b4976ab8beb89435ca61757693a2329c9c8": [
+        "6d2c15167531d62f08a3a9e42f8dc56d2cab6b95e386b4abbadc8e6d4fb9604c": [
+          "applied-ai-engineering",
+          "technical-product-leadership",
+          "clinical-product",
+          "model-development",
+          "cloud-backend"
+        ],
+        "ec575f71a95f609cab6872d7fbd9203107c6e57e33bc1a918ed86762b6c7da9e": [
           "applied-ai-engineering",
           "llm-evaluation",
           "user-research"
         ],
-        "16224763dbd9549875bbb269f4688aafb05b0b37321ec850a4907888a246904d": [
+        "25cf54aa96caa1359d0796b2d1ab308f7889ac1fd18f8ee5ddf23299f47a5257": [
           "engineering-leadership",
           "production-operations",
           "security-privacy",
@@ -313,13 +314,6 @@
           "data-modeling",
           "annotation-workflows"
         ],
-        "78fbf94737dccdca4ca6a785033c6b88d4be247d359a902e2d65219333f13b85": [
-          "computer-vision-engineering",
-          "data-engineering",
-          "data-quality",
-          "annotation-workflows",
-          "data-modeling"
-        ],
         "6218e69ebb4e8820dae1ed88f40842041b17b7bd824593b170d5d835343f6c9f": [
           "computer-vision-engineering",
           "data-modeling",
@@ -344,6 +338,13 @@
           "customer-investor-communication",
           "product-design",
           "imaging-hardware"
+        ],
+        "cf582ca7ee24c2ddd8d69fba2981f93f568989f524f0602bb51378395cd93c74": [
+          "computer-vision-engineering",
+          "data-engineering",
+          "data-quality",
+          "annotation-workflows",
+          "data-modeling"
         ]
       }
     },
