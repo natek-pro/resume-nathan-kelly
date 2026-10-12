@@ -170,12 +170,6 @@
           "delivery",
           "production-operations"
         ],
-        "98a6729b1da4241a7fb6e09f0e62ec6858be328e3d5b4b21c90b993a6de97739": [
-          "engineering-leadership",
-          "technical-product-leadership",
-          "delivery",
-          "workflow-automation"
-        ],
         "69937e97c19ec15a88808cca4974b701ea476752e02bddf60d1670d9f74ee881": [
           "technical-product-leadership",
           "user-research",
@@ -216,6 +210,23 @@
           "workflow-automation",
           "cloud-backend",
           "security-privacy"
+        ],
+        "fd3649464ce6fe39e85bac90e6cddfe793a06c0ad993b0fd96decd60a48396cd": [
+          "engineering-leadership",
+          "people-leadership",
+          "delivery"
+        ],
+        "cbb6e1456484a6b0ffe747198b68a307d5277c5604945bf726ede8364d89b645": [
+          "engineering-leadership",
+          "people-leadership",
+          "cloud-backend"
+        ],
+        "71aeb82c91c9d5b7e05a2847a7f83c3caa397994de27508e4dbd9ed54320d608": [
+          "engineering-leadership",
+          "technical-product-leadership",
+          "delivery",
+          "workflow-automation",
+          "people-leadership"
         ]
       }
     },
