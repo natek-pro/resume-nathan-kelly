@@ -192,11 +192,12 @@
           "cloud-migration",
           "cloud-backend"
         ],
-        "8cf7c1b1307d2a52e8cd006b4fef424e9e92dfa53201d030d0c444dd76da1dca": [
+        "dd6f4881fbdcb215106feee253e5c3755458003f2ff30d0a744192154bab20dc": [
           "engineering-leadership",
           "technical-product-leadership",
           "security-privacy",
-          "production-operations"
+          "production-operations",
+          "delivery"
         ],
         "fd3649464ce6fe39e85bac90e6cddfe793a06c0ad993b0fd96decd60a48396cd": [
           "engineering-leadership",

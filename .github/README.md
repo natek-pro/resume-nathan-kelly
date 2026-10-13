@@ -40,7 +40,7 @@ Served as the company’s sole product-and-technology leader, reporting to the C
 - Cut AWS costs by **60%** by leading backend and infrastructure improvements in an inherited AWS/Django platform. Directed technical-debt remediation across integrations, business logic, and data models while continuing feature delivery.
 - Designed the target Azure architecture and a phased AWS-to-Azure cloud migration plan covering deployment alongside live services and retirement of existing components.
 - Owned production deployments, release operations, and monitoring, building and repairing **CI/CD infrastructure**. Led remediation of API access, authentication, and security issues, identifying an API vulnerability that allowed unauthenticated writes to users’ data and directing its fix. Investigated user reports, triaged issues in Sentry, and directed fixes.
-- Authored the company’s privacy policy and led App Store and Google Play review work, resolving a recurring release blocker by identifying and correcting a mismatch between privacy disclosures and backend behavior.
+- **Authored the company’s privacy policy** and led App Store and Google Play review work. Resolved a recurring release blocker by tracing user and health-data flows across the mobile app, Django backend, analytics, and LLM companion and correcting mismatches between privacy disclosures and system behavior.
 
 #### Founding Engineer & Data Scientist — April 2024–January 2025
 
