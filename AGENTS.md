@@ -13,6 +13,7 @@ This directory is a self-contained resume source and PDF generator. All paths be
 
 ## Editorial practices
 
+- Follow the editorial objective, proposal gate, and work discipline in the [targeting brief](../resume-targeted/docs/targeting-brief.md). For the master, assess its complete career positioning and usefulness for the standing role directions; for a variant, assess its intended role. Establish a clear net gain before proposing an edit, compare with retaining the current text, and account for evidence lost. Retaining effective text is a successful review outcome; editing and activity are not measures of progress. When the sibling project is unavailable, these requirements still apply.
 - Exercise editorial judgment. The user's explanations supply evidence, not an obligation to include every detail. Preserve meaningful technical substance; avoid padding and indiscriminate shortening.
 - For substantive wording, emphasis, or structural proposals, show original and proposed text, explain the tradeoff, and obtain approval before applying. Existing approval carries forward; do not ask again for an already approved change.
 - Keep formatting work separate from claims. A bolding-only pass must not silently change words, punctuation, dates, or qualifications.
