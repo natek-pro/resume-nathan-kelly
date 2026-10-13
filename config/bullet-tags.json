@@ -198,22 +198,10 @@
           "security-privacy",
           "production-operations"
         ],
-        "43e7b040116c831396a2f53c04a8342f86eab67a1155b99656e335f3f7a1925a": [
-          "engineering-leadership",
-          "production-operations",
-          "workflow-automation",
-          "cloud-backend",
-          "security-privacy"
-        ],
         "fd3649464ce6fe39e85bac90e6cddfe793a06c0ad993b0fd96decd60a48396cd": [
           "engineering-leadership",
           "people-leadership",
           "delivery"
-        ],
-        "cbb6e1456484a6b0ffe747198b68a307d5277c5604945bf726ede8364d89b645": [
-          "engineering-leadership",
-          "people-leadership",
-          "cloud-backend"
         ],
         "71aeb82c91c9d5b7e05a2847a7f83c3caa397994de27508e4dbd9ed54320d608": [
           "engineering-leadership",
@@ -227,6 +215,18 @@
           "cloud-backend",
           "production-operations",
           "delivery"
+        ],
+        "d1fa90d6e1e8e05c1e636836a6611fc69089d01965a371c3aea334fcd5dce323": [
+          "engineering-leadership",
+          "people-leadership",
+          "cloud-backend"
+        ],
+        "d9ef07808c1ad06a13b703628d49841c39ba3d4445992a7ee257001a89c72dc5": [
+          "engineering-leadership",
+          "production-operations",
+          "workflow-automation",
+          "cloud-backend",
+          "security-privacy"
         ]
       }
     },
@@ -276,7 +276,7 @@
           "llm-evaluation",
           "user-research"
         ],
-        "25cf54aa96caa1359d0796b2d1ab308f7889ac1fd18f8ee5ddf23299f47a5257": [
+        "fc56f534bb92239b3cd3c7a711cfda94553ac597c5e7a450f732270a3acba672": [
           "engineering-leadership",
           "production-operations",
           "security-privacy",
@@ -294,12 +294,6 @@
         "data-modeling"
       ],
       "bullets": {
-        "79b99dbc7527825d1f2d8857fd89943eb1ef8ce3a0cc9dab77cefc3df3fbc81b": [
-          "engineering-leadership",
-          "computer-vision-engineering",
-          "people-leadership",
-          "data-pipelines"
-        ],
         "6e12c4dea23ebb42085104d0c214cdc46e6c0682fae65dbce6db7eb7135e91ad": [
           "computer-vision-engineering",
           "imaging-hardware",
@@ -356,6 +350,12 @@
           "data-quality",
           "annotation-workflows",
           "data-modeling"
+        ],
+        "fef9e89bcdd6c9a78d144e15bc8c3ac50df8b7bdedfcd585f600cdd6938ee732": [
+          "engineering-leadership",
+          "computer-vision-engineering",
+          "people-leadership",
+          "data-pipelines"
         ]
       }
     },
