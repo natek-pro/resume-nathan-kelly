@@ -198,12 +198,6 @@
           "security-privacy",
           "production-operations"
         ],
-        "0f886a56478aaed812d4da91682d1e9dd85f93143386f92a71875d9e83713709": [
-          "engineering-leadership",
-          "cloud-backend",
-          "production-operations",
-          "delivery"
-        ],
         "43e7b040116c831396a2f53c04a8342f86eab67a1155b99656e335f3f7a1925a": [
           "engineering-leadership",
           "production-operations",
@@ -227,6 +221,12 @@
           "delivery",
           "workflow-automation",
           "people-leadership"
+        ],
+        "9535456ab87691918374d191a0240c1bb9f7fda64faea72cf59407ba1b2e9fcb": [
+          "engineering-leadership",
+          "cloud-backend",
+          "production-operations",
+          "delivery"
         ]
       }
     },
