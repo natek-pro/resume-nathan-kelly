@@ -6,6 +6,7 @@ This directory is a self-contained resume source and PDF generator. All paths be
 
 - Active wording and emphasis: `resume_source.md`.
 - Current reviewed export: `output/pdf/Nathan-Kelly-Resume.pdf`.
+- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. Run `npm run portable` only after the public PDF is reviewed and promoted; `npm run check:portable` detects drift. Never copy the private application resume into this folder.
 - Operational reference: `docs/generator.md`.
 - Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
@@ -103,7 +104,7 @@ Requires Node.js 22+, `marked`, Playwright and a Chromium browser; Python 3 with
 
 ## Builds and publication
 
-- Git tracks source, generator, templates, dependency configuration, documentation, and CI workflows. Generated PDFs, previews, references, and snapshots are local-only and ignored.
+- Git tracks source, generator, templates, dependency configuration, documentation, CI workflows, and the public Markdown/PDF copies in `portable-resumes/`. Other generated PDFs, previews, references, and snapshots are local-only and ignored.
 - `npm run build` exports a draft; `npm run check` validates extracted content and font faces. See `docs/generator.md` for setup and commands.
 - CI validates builds and publishes the public PDF on `main` after the validation and encryption jobs succeed. Automated validation does not replace visual review.
 - Promote the exact reviewed draft to the local canonical PDF. Do not commit generated outputs.

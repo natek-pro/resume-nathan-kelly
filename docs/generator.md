@@ -1,5 +1,7 @@
 # Resume generator
 
+For agents or other repositories that need only the public master resume, `portable-resumes/` contains a standalone Markdown copy of `resume_source.md` and a byte-identical copy of the reviewed `output/pdf/Nathan-Kelly-Resume.pdf`. Refresh them with `npm run portable` after promoting a reviewed public PDF; `npm run check:portable` detects drift. They are the narrow exception to the generated-output Git policy below. The application resume and its private contacts never enter this folder.
+
 The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
 
 Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage and bullet catalog** workflow automatically regenerates and commits `.github/README.md` and `docs/bullet-catalog.md` after source or relevant generator/tag changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and `npm run catalog` and commit the generated files with your source change. `npm run check:readme` detects a stale display copy.

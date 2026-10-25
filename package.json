@@ -8,9 +8,11 @@
   "scripts": {
     "browser:install": "playwright install chromium --only-shell",
     "check:source": "node scripts/check-source.mjs",
+    "portable": "node scripts/export-portable-resume.mjs",
+    "check:portable": "node scripts/export-portable-resume.mjs --check",
     "check:pdf": "python3 scripts/check-export.py",
     "build": "npm run readme && npm run catalog && npm run build:web && npm run export -- resume_source.md output/pdf/drafts/resume.pdf",
-    "check": "npm run check:source && npm run check:catalog && npm run check:pdf -- resume_source.md output/pdf/drafts/resume.pdf && npm run check:fonts",
+    "check": "npm run check:source && npm run check:catalog && npm run check:portable && npm run check:pdf -- resume_source.md output/pdf/drafts/resume.pdf && npm run check:fonts",
     "export": "node scripts/export-resume.mjs",
     "snapshot": "node scripts/snapshot-resume.mjs",
     "check:fonts": "python3 scripts/check-fonts.py",
