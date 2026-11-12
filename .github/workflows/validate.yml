@@ -57,6 +57,8 @@ jobs:
         run: npm run check:catalog
       - name: Check web content and responsive layout
         run: npm run check:web
+      - name: Validate committed portable resume
+        run: npm run check:portable
       - name: Record validated web hash
         id: web_hash
         run: echo "sha256=$(shasum -a 256 output/web/resume/index.html | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
@@ -89,7 +91,7 @@ jobs:
         if: ${{ success() }}
         run: |
           mkdir -p dist
-          cp output/pdf/drafts/resume.pdf dist/${{ steps.naming.outputs.basename }}-Public.pdf
+          cp portable-resumes/Nathan-Kelly-Resume.pdf dist/${{ steps.naming.outputs.basename }}-Public.pdf
       - name: Record validated public PDF hash
         id: public_hash
         run: echo "sha256=$(shasum -a 256 dist/${{ steps.naming.outputs.basename }}-Public.pdf | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
