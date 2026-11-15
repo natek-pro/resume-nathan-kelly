@@ -109,7 +109,7 @@ Requires Node.js 22+, `marked`, Playwright and a Chromium browser; Python 3 with
 - CI validates builds and publishes the public PDF on `main` after the validation and encryption jobs succeed. Automated validation does not replace visual review.
 - Promote the exact reviewed draft to the local canonical PDF. Do not commit generated outputs.
 
-The Generate and validate resume workflow names CI downloads `Resume-Nathan-Kelly-<UTC timestamp>-Public`, `Resume-Nathan-Kelly-<UTC timestamp>-Public-Diagnostics`, and (main only) `Resume-Nathan-Kelly-<UTC timestamp>-Encrypted`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job; only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
+The Generate and validate resume workflow uses timestamped artifact names such as `Nathan-Kelly-Public-Resume-<UTC timestamp>` and `Nathan-Kelly-Application-Resume-<UTC timestamp>-Encrypted`. The public download contains `Nathan-Kelly-Resume.pdf` and the encrypted download contains `Nathan-Kelly-Application-Resume.pdf.age`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job. Only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
 
 ## Public and private variants
 

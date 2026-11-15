@@ -13,7 +13,7 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = ROOT / 'dist/encrypted/Nathan-Kelly-Resume.pdf.age'
+OUTPUT = ROOT / 'dist/encrypted/Nathan-Kelly-Application-Resume.pdf.age'
 
 
 def contact_values(env):

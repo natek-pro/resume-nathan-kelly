@@ -93,11 +93,12 @@ PRs never receive the contact secrets. No private PDFs, page previews, extracted
 
 Download from **Actions → a run → Summary**:
 
-- `Resume-Nathan-Kelly-<timestamp>-Public`: ZIP containing the identically named public PDF.
-- `Resume-Nathan-Kelly-<timestamp>-Public-Diagnostics`: public page images, extraction, font report, metadata, and provenance; may exist on a failed run.
-- `Resume-Nathan-Kelly-<timestamp>-Encrypted`: ZIP containing `Resume-Nathan-Kelly-<timestamp>.pdf.age`, produced only after the application PDF passes validation and encryption succeeds.
+- `Nathan-Kelly-Public-Resume-<timestamp>` contains the public PDF named `Nathan-Kelly-Resume.pdf`.
+- `Nathan-Kelly-Web-Resume-<timestamp>` contains the validated public web resume.
+- `Nathan-Kelly-Public-Resume-Diagnostics-<timestamp>` contains public page images, extraction, font report, metadata, and provenance. It may exist on a failed run.
+- `Nathan-Kelly-Application-Resume-<timestamp>-Encrypted` contains `Nathan-Kelly-Application-Resume.pdf.age` after the application PDF passes validation and encryption succeeds.
 
-The timestamp is UTC in `YYYYMMDDTHHMMSSZ` format (for example, `20260917T180000Z`) and is shared by all downloads from a build. Rerunning the public job creates a new timestamp; rerunning only the encrypted job reuses the successful public job’s timestamp. The private builder uses a fixed local staging filename; CI renames only the completed ciphertext for download.
+All artifacts from a build share a UTC timestamp in `YYYYMMDDTHHMMSSZ` format, such as `20260917T180000Z`. Rerunning the public job creates a new timestamp. Rerunning only the encrypted job reuses the successful public job’s timestamp. The filenames inside the downloads are stable.
 
 Downloads expire after 14 days. Main builds fail rather than silently omit private contact fields when secrets or the public recipient are missing/invalid. Review all workflow/code/dependency changes before merging: code run on main can access secrets. Protect main with required reviews/checks if accepting contributions.
 
@@ -108,11 +109,11 @@ Install age once (`brew install age`). Extract the encrypted file from the downl
 ```sh
 age --decrypt \
   -i "$HOME/.config/age/resume-identity.txt" \
-  -o "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf" \
-  "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf.age"
+  -o "$HOME/Downloads/Nathan-Kelly-Application-Resume.pdf" \
+  "$HOME/Downloads/Nathan-Kelly-Application-Resume.pdf.age"
 ```
 
-Replace the example timestamp with the one in your download and adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
+Adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
 
 Back up the identity file securely, such as in an encrypted password-manager attachment. Anyone with the identity can decrypt its matching artifacts; losing it means losing access to those downloads. GitHub cannot recover it. Never paste the private identity into an issue, chat, repository secret, or workflow log.
 

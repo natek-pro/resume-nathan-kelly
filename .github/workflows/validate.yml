@@ -17,7 +17,7 @@ jobs:
   validate:
     name: Generate and validate public resume
     outputs:
-      basename: ${{ steps.naming.outputs.basename }}
+      timestamp: ${{ steps.naming.outputs.timestamp }}
       web_sha256: ${{ steps.web_hash.outputs.sha256 }}
       pdf_sha256: ${{ steps.public_hash.outputs.sha256 }}
     # Match the reviewed local font environment; reject substitutions below.
@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Set download timestamp
         id: naming
-        run: echo "basename=Resume-Nathan-Kelly-$(date -u +%Y%m%dT%H%M%SZ)" >> "$GITHUB_OUTPUT"
+        run: echo "timestamp=$(date -u +%Y%m%dT%H%M%SZ)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -65,7 +65,7 @@ jobs:
       - name: Upload validated web resume
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.naming.outputs.basename }}-Web
+          name: Nathan-Kelly-Web-Resume-${{ steps.naming.outputs.timestamp }}
           retention-days: 14
           if-no-files-found: error
           path: output/web/resume/index.html
@@ -91,25 +91,25 @@ jobs:
         if: ${{ success() }}
         run: |
           mkdir -p dist
-          cp portable-resumes/Nathan-Kelly-Resume.pdf dist/${{ steps.naming.outputs.basename }}-Public.pdf
+          cp portable-resumes/Nathan-Kelly-Resume.pdf dist/Nathan-Kelly-Resume.pdf
       - name: Record validated public PDF hash
         id: public_hash
-        run: echo "sha256=$(shasum -a 256 dist/${{ steps.naming.outputs.basename }}-Public.pdf | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+        run: echo "sha256=$(shasum -a 256 dist/Nathan-Kelly-Resume.pdf | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
       - name: Upload PDF
         id: pdf
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.naming.outputs.basename }}-Public
+          name: Nathan-Kelly-Public-Resume-${{ steps.naming.outputs.timestamp }}
           retention-days: 14
           if-no-files-found: error
-          path: dist/${{ steps.naming.outputs.basename }}-Public.pdf
+          path: dist/Nathan-Kelly-Resume.pdf
       - name: Upload diagnostics
         id: diagnostics
         if: ${{ !cancelled() && hashFiles('tmp/ci/**') != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.naming.outputs.basename }}-Public-Diagnostics
+          name: Nathan-Kelly-Public-Resume-Diagnostics-${{ steps.naming.outputs.timestamp }}
           retention-days: 14
           if-no-files-found: error
           path: tmp/ci/
@@ -176,16 +176,14 @@ jobs:
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
           AGE_RECIPIENT: ${{ vars.AGE_RECIPIENT }}
         run: npm run build:encrypted
-      - name: Name encrypted download
-        run: mv dist/encrypted/Nathan-Kelly-Resume.pdf.age "dist/encrypted/${{ needs.validate.outputs.basename }}.pdf.age"
       - name: Upload encrypted PDF only
         id: encrypted
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ needs.validate.outputs.basename }}-Encrypted
+          name: Nathan-Kelly-Application-Resume-${{ needs.validate.outputs.timestamp }}-Encrypted
           retention-days: 14
           if-no-files-found: error
-          path: dist/encrypted/${{ needs.validate.outputs.basename }}.pdf.age
+          path: dist/encrypted/Nathan-Kelly-Application-Resume.pdf.age
       - name: Write encrypted download summary
         if: ${{ always() }}
         env:
@@ -215,19 +213,18 @@ jobs:
       - name: Download this run's validated public PDF only
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.validate.outputs.basename }}-Public
+          name: Nathan-Kelly-Public-Resume-${{ needs.validate.outputs.timestamp }}
           path: public-pdf
       - name: Verify validated artifact hash
         env:
-          BASENAME: ${{ needs.validate.outputs.basename }}
           EXPECTED_SHA256: ${{ needs.validate.outputs.pdf_sha256 }}
         run: |
           test -n "$EXPECTED_SHA256"
-          echo "$EXPECTED_SHA256  public-pdf/$BASENAME-Public.pdf" | sha256sum --check --strict
+          echo "$EXPECTED_SHA256  public-pdf/Nathan-Kelly-Resume.pdf" | sha256sum --check --strict
       - name: Download this run's validated web resume
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.validate.outputs.basename }}-Web
+          name: Nathan-Kelly-Web-Resume-${{ needs.validate.outputs.timestamp }}
           path: public-web
       - name: Verify validated web hash
         env:
@@ -243,11 +240,9 @@ jobs:
           path: website
           ssh-key: ${{ secrets.WEBSITE_DEPLOY_KEY }}
       - name: Update hosted public PDF and web resume
-        env:
-          BASENAME: ${{ needs.validate.outputs.basename }}
         run: |
           test -f website/resume-pdf/index.html
-          cp "public-pdf/$BASENAME-Public.pdf" website/resume-pdf/Nathan-Kelly-Resume.pdf
+          cp "public-pdf/Nathan-Kelly-Resume.pdf" website/resume-pdf/Nathan-Kelly-Resume.pdf
           mkdir -p website/resume
           cp public-web/index.html website/resume/index.html
           cd website

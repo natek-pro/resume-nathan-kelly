@@ -2,14 +2,14 @@
 
 # Nathan Kelly
 
-**Product & Engineering Leader | Applied AI & Machine Learning**
+**Software & AI Engineer | Data Systems & Technical Leadership**
 
 Phoenix, AZ  
 [linkedin.com/in/natejkelly](https://www.linkedin.com/in/natejkelly/)
 
 ## Summary
 
-Hands-on product and engineering leader with experience in applied machine learning, computer-vision systems, and large language model (LLM) application architecture. Led the initial build and launch of a consumer-health platform, then established its first in-house engineering team. Named inventor on a computer-vision assisted-checkout patent.
+Hands-on engineer and technical leader with experience building software, training-data systems for commercial computer vision, and applications powered by large language models (LLMs). Led the initial build and launch of a consumer-health platform, then established its first in-house engineering team. Named inventor on a computer-vision assisted-checkout patent.
 
 ## Core Competencies
 
@@ -51,7 +51,7 @@ As the company’s first technical hire, led the initial build of a women’s he
 - Architected the product’s **core LLM companion** across the mobile application, AWS-hosted Django backend, and Azure AI services. Connected model deployment through Azure AI Studio with conversation history and recall in Azure Cosmos DB and application data for personalized interactions, designing the system to support changing the underlying model.
 - Designed the LLM companion’s **personalization system** to build health profiles through ongoing product engagement, transform health and activity data into contextual observations for model prompts, and let users control which information the companion could use.
 - Chose an existing web-app template embedded in a mobile webview to launch the LLM companion quickly and test **product-market fit** with limited upfront investment. The companion later moved to direct Flutter integration while retaining its Azure backend services.
-- Evaluated the LLM companion through scenario-based, multi-turn conversation tests, regression checks, and edge-case testing. Compared prompt variants and used structured human review, focus-group feedback, and stakeholder input to refine instructions and context injection and guide conversational behavior and capabilities.
+- Evaluated the LLM companion through scenario-based, multi-turn conversation tests, regression checks, and edge-case testing. Diagnosed a personalization issue where injected health context made a simple greeting trigger a symptom-focused reply; revised instructions and context injection and checked for regressions. Compared prompt variants and used structured human review, focus-group feedback, and stakeholder input to guide conversational behavior and capabilities.
 - Led the takeover and stabilization of an inherited production system with minimal handoff, owning production access and CI/CD infrastructure. Maintained **zero user-facing downtime** during the handoffs while reviewing AWS access, rotating exposed credentials, and hardening unstable code.
 
 ### RadiusAI — Tempe, AZ
@@ -66,7 +66,7 @@ Helped develop **ShopAssist**, a computer-vision assisted-checkout system, from 
 - Engineered the **checkout imaging system** to capture discriminative visual features for product classification, selecting cameras, lenses, and viewing angles within edge-device USB bandwidth and power limits. The system ran recognition at 6 frames per second with live visual feedback.
 - Built the **end-to-end data-collection pipeline**, from capture software and operator interface to storage and data modeling. Standardized capture procedures and tracked product identity through barcode scanning and automated metadata collection.
 - Developed a versioned, queryable training-data system linking captures and their metadata to hardware configurations. Enabled composite datasets to reuse compatible captures across hardware changes instead of discarding entire prior datasets.
-- Traced recognition failures in field deployment to annotation errors and inconsistent retailer catalog data. Designed a **ground-truth product index** covering more than 3,000 products, reconciling changing UPCs, SKUs, and descriptions while supporting integration with other retailers’ catalog structures and POS systems.
+- Traced recognition failures in field deployment to annotation errors and inconsistent retailer catalog data. Designed a **ground-truth product index** covering more than 3,000 products, reconciling changing UPCs, SKUs, and descriptions while supporting integration with other retailers’ catalog structures and point-of-sale (POS) systems.
 - Improved recognition by **approximately 10 F-score points** by correcting labeling and data-model errors affecting more than 33% of SKUs, enabling pilot expansion. Integrated the product index with annotation workflows and redesigned data models and training-data tracking.
 - Defined recognition classes to reconcile visual appearance with retail product identity, handling identical products sold under different identifiers, customizable products, and personal objects such as phones and wallets.
 - Reverse-engineered undocumented retailer POS records into structured checkout events and built a **sequence-alignment algorithm** to associate them with noisy, asynchronous customer tracks independently captured by the computer-vision system. Tuned the matching cost to handle transient tracks and spurious POS events while allowing unmatched tracks and multiple plausible transaction candidates.
@@ -96,8 +96,7 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 
 *Interactive Robotics Lab*
 
-- Designed a quadcopter simulation and trained an **internal dynamics model** to predict the robot’s motion. Used deviations between predicted and observed motion to model functional pain and distinguish collisions from abrupt, self-generated movement.
-- Developed and trained ConvLSTM models for **self-supervised visual collision avoidance**, using collision labels generated by the simulated robot’s functional pain model independently of the simulator’s collision flags.
+- Designed a quadcopter simulation and trained an **internal dynamics model** to predict motion. Used deviations between predicted and observed motion to distinguish collisions from abrupt, self-generated movement, generating collision labels independently of the simulator’s collision flags. Developed and trained ConvLSTM models using those labels for **self-supervised visual collision avoidance**.
 - Implemented central pattern generators for leg-joint control in a MuJoCo simulation of Agility Robotics’ Cassie biped, producing initial standing and basic stepping behavior. Explored evolutionary algorithms for optimizing the generators.
 - Compiled and deployed **custom movement-control code** on a physical Ghost Robotics Minitaur quadruped.
 
@@ -114,6 +113,12 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 - **National Science Foundation REU recipient** — Fall 2017: Applied optical-flow methods to traffic video for autonomous-driving research.
 - Undergraduate robotics research: Built a robot-navigation simulation exploring adaptive behavior and exploration–exploitation tradeoffs; implemented hardware controls for exoskeleton research using surface EMG.
 
+## Personal Projects
+
+### Multi-Agent Job-Search Workflow · Personal project · 2026
+
+Designed and operate a job-search workflow (Grok Bot) with **multi-agent orchestration** for role discovery, application prefill, long-form writing, and strategy. Coordinate agents through a shared Postgres jobs database, scheduled routines, and defined handoffs. Set **human-in-the-loop approval** gates for every submission and use Codex CLI as an independent writer and reviewer.
+
 ## Education
 
 - Arizona State University — Master of Science in Computer Science, 2021
@@ -121,4 +126,4 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 
 ## Additional Skills
 
-Software Engineering · Engineering Management · Technical Product Management · Stakeholder Management · Backlog Prioritization · Product Requirements Documents (PRDs) · User Stories · Acceptance Criteria · Generative AI (GenAI) · Conversational AI · AI Agents · Tool Calling · Prompt Engineering · Context Engineering · LLM Evaluation · Model Evaluation · AI-Assisted Software Development · Cursor · Claude Code · OpenAI Codex · Workflow Automation · Data Engineering · Data Pipelines · Data Quality · Backend Development · API Integration · REST APIs · SQL · PostgreSQL · scikit-learn · OpenCV · NumPy · pandas · Git · Linux · Microsoft Azure · Azure OpenAI · Amazon Web Services (AWS) · Continuous Integration and Continuous Delivery (CI/CD)
+Software Engineering · Engineering Management · Technical Product Management · Stakeholder Management · Backlog Prioritization · Product Requirements Documents (PRDs) · User Stories · Acceptance Criteria · Generative AI (GenAI) · Conversational AI · Multi-Agent Orchestration · Tool Calling · Prompt Engineering · Context Engineering · LLM Evaluation · Model Evaluation · AI-Assisted Software Development · Cursor · Claude Code · OpenAI Codex · Workflow Automation · Data Engineering · Data Pipelines · Data Quality · Backend Development · API Integration · REST APIs · SQL · PostgreSQL · scikit-learn · OpenCV · NumPy · pandas · Git · Linux · Microsoft Azure · Azure OpenAI · Amazon Web Services (AWS) · Continuous Integration and Continuous Delivery (CI/CD)
