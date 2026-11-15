@@ -1,15 +1,15 @@
 # Portable master resume
 
-`Nathan-Kelly-Resume.md` and `Nathan-Kelly-Resume.pdf` are the public master resume in readable Markdown and reviewed PDF form. Agents can read the Markdown directly without this repository's renderer. Both omit private email and phone; the application resume remains available only through the separate encrypted workflow.
+This folder contains the tracked public master resume as [Markdown](Nathan-Kelly-Resume.md) and a [reviewed PDF](Nathan-Kelly-Resume.pdf). Both list the city and LinkedIn profile.
 
-These are generated copies. Edit `resume_source.md` and run `npm run build` to refresh this pair and the matching local PDF. Review the PDF, then commit the pair with `pdf-manifest.json`. Use `npm run check:portable` to verify their provenance and freshness. The [generator guide](../docs/generator.md) describes the export workflow.
+To update these files from a full checkout, edit `resume_source.md` and run `npm run build`. Review the PDF, then commit the pair and `pdf-manifest.json` with the changed inputs. Use `npm run check:portable` to verify the files. See the [generator guide](../docs/generator.md) for the export workflow.
 
-To check out this folder without the generator and historical material:
+To get the portable files in a sparse working tree:
 
 ```sh
-git clone --filter=blob:none --sparse <resume-nathan-kelly-repository-url> resume-nathan-kelly
+git clone --filter=blob:none --sparse https://github.com/natek-pro/resume-nathan-kelly.git
 cd resume-nathan-kelly
 git sparse-checkout set portable-resumes
 ```
 
-To bring the resume into another repo, copy the two `Nathan-Kelly-Resume` files from this directory. A sparse checkout also retains a few root-level repository files, as Git's cone mode requires.
+To use the resume in another repo, copy the Markdown and PDF from this directory. A sparse checkout also includes root-level files.

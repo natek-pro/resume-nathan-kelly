@@ -2,9 +2,9 @@
 
 `resume_source.md` is the editable source for the public and encrypted builds. The reviewed public deliverable is the [portable Markdown/PDF pair](../portable-resumes/README.md). GitHub Actions publishes the committed portable PDF. The private application build adds contact details at export time.
 
-Run `npm run build` to refresh the local public PDF, the portable files, and the generated homepage, catalog, and web resume. Review the PDF before committing its portable copies and provenance manifest. `npm run check` verifies the committed homepage and catalog, source and PDF checksums, PDF text and fonts, and local PDF parity when that copy exists.
+Run `npm run build` to refresh the generated homepage, bullet catalog, portable exports, and local PDF and HTML. Review the PDF, then commit the changed inputs and their updated tracked outputs together. These include `.github/README.md`, `docs/bullet-catalog.md`, and the reviewed Markdown, PDF, and manifest under `portable-resumes/`. Files under `output/` are local build outputs.
 
-The **Update resume homepage and bullet catalog** workflow can regenerate and commit `.github/README.md` and `docs/bullet-catalog.md` on `main`. Commit the generated files with their inputs so PR validation can check freshness before a merge. Run `npm run readme` and `npm run catalog` to update these two files separately.
+Run `npm run check` to verify source structure, homepage and catalog freshness, PDF provenance, PDF text and fonts, and parity with the local PDF when present. CI checks the committed homepage and catalog before rendering previews. To regenerate those two files separately, use `npm run readme` and `npm run catalog`.
 
 ## Agent bullet catalog
 
@@ -23,7 +23,16 @@ Identifiers use a registered company/role prefix and a zero-based index: `TPT-HP
 
 After a source edit, rebuild and have an agent read pending text in context, select evidence-supported tags from the vocabulary, and register the displayed fingerprint under the correct role. Remove obsolete entries; add vocabulary terms only when useful and defensible. Rebuild again and run the strict reviewed check. Detailed agent instructions are in `AGENTS.md`. Tags guide selection; they do not add resume claims or calculate a job-fit score.
 
-`npm run build` rebuilds the catalog, and `npm run check` checks its freshness. CI tests the parser and checks the committed catalog before building the draft. The main-only homepage workflow can also commit the generated document. Automation keeps text synchronized, but pending tag review is reported rather than guessed. Freshness passes with pending tags; `--require-reviewed` is the separate acceptance check for agent-maintained metadata. Catalog generation does not alter the resume source or require browser/PDF rendering.
+Freshness checks allow pending tags. Use `npm run check:catalog -- --require-reviewed` to require reviewed tags for every bullet. You can regenerate and check the catalog with Node alone.
+
+## Web quick start
+
+With Node 22 installed, run the following commands and open `output/web/resume/index.html` in a browser.
+
+```sh
+npm ci
+npm run build:web
+```
 
 ## Outputs and privacy
 
@@ -36,7 +45,7 @@ Both outputs use the same experience, education, and skills. `EMAIL` and `PHONE_
 
 The public PDF is hosted at [natek.pro/resume-pdf](https://natek.pro/resume-pdf/) through the `natek-pro/natek.pro` GitHub Pages repository. A minimal `resume-pdf/index.html` redirects to `resume-pdf/Nathan-Kelly-Resume.pdf` and provides a fallback link.
 
-The HTML version targets `/resume/` and is generated from the same `resume_source.md`; it is never edited separately. `npm run build:web` writes `output/web/resume/index.html` using `scripts/generate-web.mjs` and `templates/resume-web.css`. `npm run check:web` uses the dedicated Playwright browser to verify exact source text, bolding, links, working section anchors, and no horizontal overflow at 1280, 768, 390, and 320 pixels. Screenshots are saved under `tmp/web-review/`. The main build includes HTML generation, and CI requires web checks before deployment. The generated page has no scripts or external font dependencies.
+The HTML version at `/resume/` uses `scripts/generate-web.mjs` and `templates/resume-web.css`. `npm run check:web` uses the dedicated Playwright browser to verify source text, bolding, links, section anchors, and horizontal fit at 1280, 768, 390, and 320 pixels. It saves screenshots in `tmp/web-review/`. CI requires this check before deployment.
 
 Deployment runs automatically on `main` only after **both** `validate` and `encrypted` succeed. The public PDF artifact is the committed, reviewed `portable-resumes/Nathan-Kelly-Resume.pdf`; the newly rendered draft is retained for diagnostics and comparison. Failed, cancelled, or skipped prerequisites prevent publishing; PRs and other branches never deploy. The deployment job downloads only the current run's named public PDF and web artifacts, verifies their SHA-256 hashes against the validation job's outputs, commits those exact files into `natek-pro/natek.pro`, then polls both live HTTPS URLs until their hashes match. It does not rebuild the outputs or download private artifacts. GitHub Pages publishes the website commit. A publication or verification failure fails the deployment job; the run summary links the verified outputs only on success.
 
@@ -54,7 +63,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 npm run browser:install
-brew install poppler age
+brew install poppler
 export RESUME_PYTHON="$PWD/.venv/bin/python3"
 npm test
 npm run build
@@ -78,12 +87,6 @@ pdftotext -layout output/pdf/Nathan-Kelly-Resume.pdf tmp/review/text.txt
 ```
 
 The source checker rejects email addresses and common formatted phone numbers in the public Markdown. Keep the `Phoenix, AZ` contact line intact; the private builder uses that one line as its injection point. Do not put personal contact values in code, tests, documentation, or workflow configuration.
-
-## Targeted resume project
-
-Targeted drafting has moved to the sibling [resume-targeted project](../../resume-targeted/README.md). Read its [targeting brief](../../resume-targeted/docs/targeting-brief.md) for drafting rules and its [generator guide](../../resume-targeted/docs/generator.md) for commands. It owns copies of the renderer, template, styles, continuation helper, and checks; it reads a pinned public master input and reports drift without changing this source.
-
-The pre-separation state is preserved in commit `606f92f` and the local snapshot `versions/2026-10-09-before-targeted-project-separation/`. Local migration files are under `reference/targeted-project-migration/`, and the private archive is under `.private/targeted-project-archive/`.
 
 ## GitHub Actions
 
