@@ -127,3 +127,7 @@ Designed and operate a job-search workflow (Grok Bot) with **multi-agent orchest
 ## Additional Skills
 
 Software Engineering · Engineering Management · Technical Product Management · Stakeholder Management · Backlog Prioritization · Product Requirements Documents (PRDs) · User Stories · Acceptance Criteria · Generative AI (GenAI) · Conversational AI · Multi-Agent Orchestration · Tool Calling · Prompt Engineering · Context Engineering · LLM Evaluation · Model Evaluation · AI-Assisted Software Development · Cursor · Claude Code · OpenAI Codex · Workflow Automation · Data Engineering · Data Pipelines · Data Quality · Backend Development · API Integration · REST APIs · SQL · PostgreSQL · scikit-learn · OpenCV · NumPy · pandas · Git · Linux · Microsoft Azure · Azure OpenAI · Amazon Web Services (AWS) · Continuous Integration and Continuous Delivery (CI/CD)
+
+---
+
+[Resume Markdown](../portable-resumes/Nathan-Kelly-Resume.md) · [Resume PDF](../portable-resumes/Nathan-Kelly-Resume.pdf) · [Generator and maintenance guide](../docs/generator.md)

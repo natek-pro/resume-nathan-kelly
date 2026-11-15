@@ -1,10 +1,10 @@
 # Resume generator
 
-For agents or other repositories that need only the public master resume, `portable-resumes/` contains a standalone Markdown copy of `resume_source.md` and a byte-identical copy of `output/pdf/Nathan-Kelly-Resume.pdf`. Run `npm run build` to refresh all three files from the current source. Review the PDF before committing the portable pair with the source change. `npm run check:portable` compares Markdown with the source, validates the portable PDF text and fonts, and checks that the local PDF matches when present. GitHub Actions validates and publishes the committed portable PDF. The application resume and its private contacts never enter this folder.
+`resume_source.md` is the editable source for the public and encrypted builds. The reviewed public deliverable is the [portable Markdown/PDF pair](../portable-resumes/README.md). GitHub Actions publishes the committed portable PDF. The private application build adds contact details at export time.
 
-The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
+Run `npm run build` to refresh the local public PDF, the portable files, and the generated homepage, catalog, and web resume. Review the PDF before committing its portable copies and provenance manifest. `npm run check` verifies the committed homepage and catalog, source and PDF checksums, PDF text and fonts, and local PDF parity when that copy exists.
 
-Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage and bullet catalog** workflow automatically regenerates and commits `.github/README.md` and `docs/bullet-catalog.md` after source or relevant generator/tag changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and `npm run catalog` and commit the generated files with your source change. `npm run check:readme` detects a stale display copy.
+The **Update resume homepage and bullet catalog** workflow can regenerate and commit `.github/README.md` and `docs/bullet-catalog.md` on `main`. Commit the generated files with their inputs so PR validation can check freshness before a merge. Run `npm run readme` and `npm run catalog` to update these two files separately.
 
 ## Agent bullet catalog
 
@@ -23,7 +23,7 @@ Identifiers use a registered company/role prefix and a zero-based index: `TPT-HP
 
 After a source edit, rebuild and have an agent read pending text in context, select evidence-supported tags from the vocabulary, and register the displayed fingerprint under the correct role. Remove obsolete entries; add vocabulary terms only when useful and defensible. Rebuild again and run the strict reviewed check. Detailed agent instructions are in `AGENTS.md`. Tags guide selection; they do not add resume claims or calculate a job-fit score.
 
-`npm run build` rebuilds the catalog, and `npm run check` checks its freshness. CI tests the parser, rebuilds the catalog, and checks freshness; the main-only homepage workflow commits the generated document. Automation keeps text synchronized, but pending tag review is reported rather than guessed. Freshness passes with pending tags; `--require-reviewed` is the separate acceptance check for agent-maintained metadata. Catalog generation does not alter the resume source or require browser/PDF rendering.
+`npm run build` rebuilds the catalog, and `npm run check` checks its freshness. CI tests the parser and checks the committed catalog before building the draft. The main-only homepage workflow can also commit the generated document. Automation keeps text synchronized, but pending tag review is reported rather than guessed. Freshness passes with pending tags; `--require-reviewed` is the separate acceptance check for agent-maintained metadata. Catalog generation does not alter the resume source or require browser/PDF rendering.
 
 ## Outputs and privacy
 
@@ -63,9 +63,11 @@ npm run check
 
 Node dependencies are locked; Python dependencies are pinned. System packages and font/browser rendering differences still require visual review. Exports never use your installed Google Chrome as a fallback. Restricted agent environments must obtain normal execution permission before browser startup.
 
-`npm run build` renders the public source once, checks the PDF text and fonts, and updates `output/pdf/Nathan-Kelly-Resume.pdf` and both portable files. `npm run check` verifies the generated catalog and the portable files. The font check expects Georgia regular/bold/italic and Arial regular/bold.
+`npm run build` renders the public PDF once, validates its text and fonts, and updates the local PDF and portable files. The tracked `portable-resumes/pdf-manifest.json` records SHA-256 hashes for the PDF and its print inputs, including the source, templates, renderer, and dependency pins. Commit the manifest with the reviewed PDF. `npm run check:portable` rejects changed inputs or PDF bytes and validates the committed PDF directly. Font checks and visual review cover runtime differences such as installed font versions.
 
-`npm run build:draft` writes `output/pdf/drafts/resume.pdf` for previews and CI diagnostics. To copy an existing reviewed local PDF into the portable pair, `npm run portable` checks it against the current public source and fonts first.
+`npm run build:draft` writes `output/pdf/drafts/resume.pdf` and `output/web/resume/index.html` for previews and CI diagnostics. Both paths are ignored by Git. For a standalone PDF preview, pass an explicit draft destination to `npm run export`. The default `npm run export` writes the local public PDF and its provenance. After reviewing that exact local PDF, use `npm run portable` to promote it. The command checks provenance before copying the PDF and validates its text and fonts.
+
+The reviewed master spans five US Letter pages. The font checker reports page counts that differ from this baseline for visual review.
 
 Render every page of the local output before committing the portable files:
 
@@ -81,13 +83,13 @@ The source checker rejects email addresses and common formatted phone numbers in
 
 Targeted drafting has moved to the sibling [resume-targeted project](../../resume-targeted/README.md). Read its [targeting brief](../../resume-targeted/docs/targeting-brief.md) for drafting rules and its [generator guide](../../resume-targeted/docs/generator.md) for commands. It owns copies of the renderer, template, styles, continuation helper, and checks; it reads a pinned public master input and reports drift without changing this source.
 
-The current master keeps its publication flow, ASU date corrections, and bullet-catalog automation. The pre-separation state is preserved by local commit `606f92f` and the immutable snapshot `versions/2026-10-09-before-targeted-project-separation/`. Migrated local working files are archived under ignored `reference/targeted-project-migration/`; local targeted application copies are under `.private/targeted-project-archive/`. No remote was pushed.
+The pre-separation state is preserved in commit `606f92f` and the local snapshot `versions/2026-10-09-before-targeted-project-separation/`. Local migration files are under `reference/targeted-project-migration/`, and the private archive is under `.private/targeted-project-archive/`.
 
 ## GitHub Actions
 
 The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains three jobs:
 
-1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It uses `npm run build:draft` for diagnostics, checks the draft's content and fonts, and independently validates the committed portable files before uploading the portable PDF.
+1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It checks the committed homepage and catalog, uses `npm run build:draft` for diagnostics, checks the draft's content and fonts, then uploads the independently validated portable PDF.
 2. **encrypted** runs only on `main`, after public validation, for pushes or manual dispatch. It installs dependencies before receiving contact secrets, builds and validates the private PDF in a restricted temporary directory, encrypts it, and uploads only the ciphertext.
 3. **deploy** runs only on `main`, after both preceding jobs succeed, publishes the exact validated public PDF and HTML, and verifies their live bytes.
 
@@ -137,16 +139,17 @@ To configure a new recipient, generate an identity locally with `age-keygen -o <
 | `scripts/generate-readme.mjs` | Generate or check the homepage copy |
 | `docs/generator.md` | Setup, CI, privacy, and decryption instructions |
 | `AGENTS.md` | Repository maintenance and editorial rules |
-| `templates/` | HTML wrapper and print CSS |
+| `templates/` | HTML wrapper and styles for PDF and web output |
 | `scripts/export-resume.mjs` | Markdown → HTML → tagged PDF |
+| `scripts/public-pdf-provenance.mjs`, `portable-resumes/pdf-manifest.json` | Print input and reviewed PDF checksums |
 | `scripts/continuation-headers.py` | Derive continuation headers from actual pagination |
 | `scripts/check-source.mjs` | Public source checks |
 | `scripts/check-export.py`, `scripts/check-fonts.py` | PDF content/font checks |
 | `scripts/build-encrypted.py` | Temporary secret injection, validation, and age encryption |
-| `tests/` | Privacy regression tests with synthetic contacts |
+| `tests/` | Bullet catalog and privacy tests using synthetic contacts |
 | `scripts/snapshot-resume.mjs` | Immutable local snapshots with checksums |
 
-`output/`, `dist/`, `tmp/`, `versions/`, `reference/`, `.private/`, `.venv/`, and `node_modules/` are ignored. Private identities belong outside this repository. Snapshots and historical local PDFs can contain earlier personal contact details; never upload them.
+`output/`, `dist/`, `tmp/`, `versions/`, `reference/`, `.private/`, `.venv/`, and `node_modules/` are ignored. Private identities belong outside this repository. Snapshots and historical local PDFs can contain earlier personal contact details. Keep them local. Clear disposable previews from `output/pdf/drafts/` and scratch files from `tmp/` after review. Keep approved renders and review notes with their snapshots or reference material.
 
 Before changing source or generator:
 
@@ -154,6 +157,6 @@ Before changing source or generator:
 npm run snapshot -- YYYY-MM-DD-before-description
 ```
 
-Snapshots include source, documentation, scripts, templates, tests, workflow/configuration, and top-level local PDFs. Existing snapshots are immutable and capture that defined set of files.
+Snapshots include source, documentation, scripts, templates, tests, workflows and configuration, the portable files, and top-level local PDFs. They preserve both PDF manifests when available. Existing snapshots are immutable.
 
 Deleting personal details from current files does not erase historical commits, PR references, old artifacts, downloaded copies, or forks. History/artifact cleanup is a separate operation, and GitHub-retained references may require GitHub Support.

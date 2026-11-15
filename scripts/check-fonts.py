@@ -47,8 +47,8 @@ def main():
         print('Unexpected fonts: ' + ', '.join(report['unexpected_fonts']))
     if report['missing_fonts']:
         print('Missing expected fonts: ' + ', '.join(report['missing_fonts']))
-    if report['pages'] != 4:
-        print(f'REVIEW: {report["pages"]} pages; the reviewed baseline has 4. Page count is not a failure by itself.')
+    if report['pages'] != 5:
+        print(f'REVIEW: {report["pages"]} pages; the reviewed baseline has 5. Page count is not a failure by itself.')
     if not report['passed']:
         print('Use an environment with the reviewed fonts. Do not accept substitutions silently.')
     return 0 if report['passed'] else 1

@@ -27,13 +27,16 @@ await collect('docs');
 await collect('config');
 await collect('tests');
 await collect('.github');
+await collect('portable-resumes');
 // A fresh clone may not have any local PDF exports yet.
 const exports = await fs.readdir(path.join(root, 'output/pdf'), { withFileTypes: true }).catch(error => {
   if (error.code === 'ENOENT') return [];
   throw error;
 });
 for (const entry of exports) {
-  if (entry.isFile() && entry.name.endsWith('.pdf')) files.push(path.join('output/pdf', entry.name));
+  if (entry.isFile() && (entry.name.endsWith('.pdf') || entry.name === 'pdf-manifest.json')) {
+    files.push(path.join('output/pdf', entry.name));
+  }
 }
 const sha256 = {};
 for (const relative of files.sort()) {

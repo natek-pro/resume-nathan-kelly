@@ -5,6 +5,11 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import {
+  publicSource, localPdf, localManifest, readPrintInputs, checkPrintInputs,
+  pdfManifest, formatPdfManifest,
+} from './public-pdf-provenance.mjs';
+import { createPublicBuildWorkspace, replaceOutputs } from './public-resume-outputs.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const localRequire = createRequire(import.meta.url);
@@ -20,8 +25,10 @@ function dependency(name) {
 }
 const { marked } = dependency('marked');
 const { chromium } = dependency('playwright');
-const source = path.resolve(root, process.argv[2] || 'resume_source.md');
-const destination = path.resolve(root, process.argv[3] || 'output/pdf/Nathan-Kelly-Resume.pdf');
+const source = path.resolve(root, process.argv[2] || publicSource);
+const destination = path.resolve(root, process.argv[3] || localPdf);
+const isLocalPublicExport = source === path.join(root, publicSource) && destination === path.join(root, localPdf);
+const inputs = isLocalPublicExport ? await readPrintInputs(root) : null;
 // A failed export must not truncate the last successful PDF.
 const temporary = `${destination}.${process.pid}.tmp`;
 const bodyPdf = `${temporary}.body.pdf`;
@@ -111,7 +118,19 @@ try {
   const python = process.env.RESUME_PYTHON || (await fs.access(bundledPython).then(() => bundledPython, () => 'python3'));
   const result = await promisify(execFile)(python, [path.join(root, 'scripts/continuation-headers.py'), bodyPdf, headingFile, temporary]);
   process.stdout.write(result.stdout);
-  await fs.rename(temporary, destination);
+  if (inputs) {
+    const work = await createPublicBuildWorkspace(root);
+    try {
+      await checkPrintInputs(root, inputs);
+      const pdf = await fs.readFile(temporary);
+      const manifest = formatPdfManifest(pdfManifest(inputs, pdf));
+      await replaceOutputs(root, [[localPdf, pdf], [localManifest, manifest]]);
+    } finally {
+      await fs.rm(work, { recursive: true, force: true });
+    }
+  } else {
+    await fs.rename(temporary, destination);
+  }
   console.log(`PDF exported: ${destination}`);
 } finally {
   await Promise.all([temporary, bodyPdf, headingFile].map(file => fs.rm(file, { force: true })));

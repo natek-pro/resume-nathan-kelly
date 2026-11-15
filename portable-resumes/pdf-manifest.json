@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "resume_source.md": "7cd2da2f429743f39c13aef1a4686c3727555a750e6c66dd1f893e6b2cdf9d60",
+    "templates/resume.html": "fe818f689e5f698f8e1811ebc198b164da78f9fa9546055e04de38d689bafeec",
+    "templates/resume.css": "702942c05b2075b6b3316b5bf855baf06786a800d30b80a92ffa7d9bac4eae92",
+    "scripts/export-resume.mjs": "6f0090bb7675116c369c5c65dc148c55923f17f67a50759a8d700554ad25ec0f",
+    "scripts/continuation-headers.py": "69dc15f20a6eb52956c200fa40326b4a4c7a4e1cb393e8470e8838f5f8ab24d9",
+    "scripts/public-pdf-provenance.mjs": "6f32cd96bd9519febb388d75c8a31086ced22a640252a50e9edc7f48f23e56b4",
+    ".nvmrc": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56",
+    "package-lock.json": "84bedf173bcbfdfef7c8c54629ffe6382a39cccff447b6b7e9473e40a6bccd9d",
+    "requirements.txt": "014e505aa3b9578c2f59e724e0c37a2d17fcd9aa5bd49867480aab46c20aacb4"
+  },
+  "pdfSha256": "c04d234ed3d479d5b095448781fe9937e88b1b54d6d5563b88468cece69762c3"
+}

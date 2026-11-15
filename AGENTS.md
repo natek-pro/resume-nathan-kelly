@@ -6,8 +6,7 @@ This directory is a self-contained resume source and PDF generator. All paths be
 
 - Active wording and emphasis: `resume_source.md`.
 - Current public export: `output/pdf/Nathan-Kelly-Resume.pdf`.
-- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. Run `npm run build` to refresh the local PDF and both portable files together. `npm run check:portable` detects drift. Never copy the private application resume into this folder.
-- Operational reference: `docs/generator.md`.
+- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. The [generator guide](docs/generator.md) covers how to refresh and validate the pair and its PDF provenance. Keep application PDFs with private contacts out of this folder.
 - Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
 - Targeted resume drafting lives in the separate [resume-targeted project](../resume-targeted/AGENTS.md). Its [targeting brief](../resume-targeted/docs/targeting-brief.md) is the single source of truth for variant drafting rules. This project’s master-layout and publication rules do not govern those drafts.
@@ -41,7 +40,7 @@ This directory is a self-contained resume source and PDF generator. All paths be
 
 - Read `docs/bullet-catalog.md` before selecting bullets for a resume variant, then verify freshness with `npm run check:catalog`. The catalog is an index, not an alternate editing source. Never edit its generated text directly.
 - IDs use `company-role-00`, starting at zero within each role. Prefixes are registered in `config/bullet-tags.json`. IDs are positional: insertions, removals, and reorders can change them. Record the catalog's source SHA-256 with any selection and verify the text before reusing older selections.
-- After any `resume_source.md` change, run `npm run catalog`. `npm run build` also rebuilds it. The main-only homepage workflow regenerates and commits both the README and catalog automatically. Generation copies text exactly; it does not invent or rewrite accomplishments.
+- After any `resume_source.md` change, run `npm run catalog`. `npm run build` also rebuilds it. The main-only homepage workflow can also regenerate and commit both the README and catalog. CI checks the committed copies. Generation copies text exactly; it does not invent or rewrite accomplishments.
 - An agent must review tags after new/changed bullets. Run `npm run catalog`, read pending entries and the corresponding source/role context, and add an entry in that role's `bullets` object in `config/bullet-tags.json`, keyed by the bullet SHA-256 printed in the catalog. Choose at least three unique registered tags, including at least one `target` tag and evidence-supported `capability` tags. Targets indicate possible application directions, not claims of having held those titles. Use editorial judgment; do not tag tools, responsibilities, or outcomes absent from the evidence.
 - Reviewed tags follow exact bullet Markdown by fingerprint, even when reordered. Wording or bolding edits produce a new fingerprint and pending review; do not blindly copy old tags. Pending bullets have broad role defaults, explicitly marked as unreviewed. Remove obsolete fingerprint entries after assessing the edit. A new or renamed organization/role requires updating its explicit mapping; preserve existing prefixes where the role identity is unchanged.
 - Rebuild after metadata edits, then run `npm run check:catalog -- --require-reviewed` and `npm run test:catalog`. Commit the source, metadata, and generated catalog together when applicable. Freshness checks alone permit pending tags; the strict flag rejects them. GitHub Actions can rebuild text but cannot supply semantic tag review.
@@ -81,7 +80,7 @@ Do not edit immutable snapshots. Restore by copying one into a separate draft di
 
 The current design is single-column US Letter, Georgia 10.5 pt, 1.25 line height, 0.62-inch vertical and 0.72-inch horizontal margins. Organization headers are larger than role headers; dates and locations align right without a leading dash. Optional descriptions and ASU units sit on separate italic lines. Continuation headers identify the role continuing at the top of each page, with a page counter at right.
 
-Four pages is the reviewed master result, not an invariant or a targeted-resume rule. Small changes can push the last skills lines onto a mostly empty fifth page. Inspect pagination after every meaningful change; do not force four pages by shrinking text excessively or cutting unapproved content.
+The current reviewed master uses five pages. Page five contains the end of Undergraduate Research, Personal Projects, Education, and Additional Skills. Inspect pagination after meaningful changes and preserve legibility and approved content.
 
 ## Text extraction limits
 
@@ -93,25 +92,15 @@ No live ATS parser was tested. Do not describe these checks as ATS certification
 
 ## Dependencies and execution
 
-Requires Node.js 22+, `marked`, Playwright and a Chromium browser; Python 3 with `pypdf`, `pdfplumber`, and `reportlab`; and Poppler for rendering/extraction inspection. See `docs/generator.md` for installation commands.
+Use the [setup instructions](docs/generator.md#setup-and-public-build) for dependencies, the dedicated Chromium headless shell, and reviewed fonts. `RESUME_PYTHON` selects the interpreter for PDF rendering helpers. `RESUME_HEADER_FONT` selects the continuation-header font. Recheck pagination when changing hosts or fonts.
 
-- Prefer available Codex bundled dependencies. Discover current paths with the workspace-dependency tool rather than assuming paths from the previous host.
-- The exporter tries local Node dependencies, then Codex's bundled packages. The browser must be Playwright's dedicated Chromium headless shell, installed with `npm run browser:install`. There is no fallback to installed Google Chrome; a missing browser produces a setup error.
-- Python selection: `RESUME_PYTHON`, otherwise the known Codex bundled interpreter if present, otherwise `python3`.
-- Header font selection: `RESUME_HEADER_FONT`, otherwise common system Arial/DejaVu Sans paths. Fonts affect wrapping and pagination; reverify on a new host.
+- Prefer available Codex bundled dependencies. Discover current paths with the workspace-dependency tool.
 - Browser startup in a restricted environment requires normal execution permission. Do not bypass sandbox restrictions or repeat a known-blocked launch.
-- Capture verbose rendering diagnostics under `tmp/`; inspect exit status and output when diagnosing failures.
+- Keep rendering diagnostics under `tmp/`.
 - Read and follow the available PDF skill for PDF authoring/review. Its artifact-operation marker applies to create/edit work, not read-only verification or edits to this handoff file.
 
 ## Builds and publication
 
-- Git tracks source, generator, templates, dependency configuration, documentation, CI workflows, and the public Markdown/PDF copies in `portable-resumes/`. Other generated PDFs, previews, references, and snapshots are local-only and ignored.
-- `npm run build` refreshes the local PDF and portable pair. `npm run check` validates source, portable content, font faces, and PDF copy parity. See `docs/generator.md` for setup and commands.
-- CI validates builds and publishes the public PDF on `main` after the validation and encryption jobs succeed. Automated validation does not replace visual review.
-- CI uses `npm run build:draft` for diagnostics and publishes the validated committed portable PDF. Commit reviewed portable files with their source changes.
+Follow the [generator guide](docs/generator.md) for commands, CI artifacts, and publication. Commit the reviewed portable pair and its manifest with changed print inputs. CI publishes the validated committed PDF and generated HTML after the public and encrypted jobs succeed.
 
-The Generate and validate resume workflow uses timestamped artifact names such as `Nathan-Kelly-Public-Resume-<UTC timestamp>` and `Nathan-Kelly-Application-Resume-<UTC timestamp>-Encrypted`. The public download contains `Nathan-Kelly-Resume.pdf` and the encrypted download contains `Nathan-Kelly-Application-Resume.pdf.age`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job. Only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
-
-## Public and private variants
-
-The root `resume_source.md` is the only editable resume source; `.github/README.md` is generated for homepage display. Run `npm run readme` after source edits and never edit the generated copy directly. A main-only workflow also commits homepage updates automatically; move operational explanations to `docs/generator.md`. The public contact stanza intentionally omits email/phone and displays the LinkedIn URL. `scripts/build-encrypted.py` injects `EMAIL` and `PHONE_NUMBER` in a restricted temporary directory, validates the application PDF, and encrypts to the public `AGE_RECIPIENT`. Missing configuration must fail closed. Do not run secret-bearing code from PR refs. Use synthetic contact details in tests; never commit private keys.
+The public source omits email and phone. The separate main-only application job uses contact secrets and exports only age ciphertext. Use synthetic contacts in tests. Keep private PDFs, generated Markdown, previews, extracted text, subprocess logs, and decryption identities out of GitHub.

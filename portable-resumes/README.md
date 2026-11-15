@@ -2,7 +2,7 @@
 
 `Nathan-Kelly-Resume.md` and `Nathan-Kelly-Resume.pdf` are the public master resume in readable Markdown and reviewed PDF form. Agents can read the Markdown directly without this repository's renderer. Both omit private email and phone; the application resume remains available only through the separate encrypted workflow.
 
-These are generated copies. Edit `resume_source.md` and run `npm run build` to refresh this pair and the matching local PDF. Review the PDF before committing the pair. Use `npm run check:portable` to verify freshness.
+These are generated copies. Edit `resume_source.md` and run `npm run build` to refresh this pair and the matching local PDF. Review the PDF, then commit the pair with `pdf-manifest.json`. Use `npm run check:portable` to verify their provenance and freshness. The [generator guide](../docs/generator.md) describes the export workflow.
 
 To check out this folder without the generator and historical material:
 

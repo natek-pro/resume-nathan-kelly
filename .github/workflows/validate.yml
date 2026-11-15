@@ -51,10 +51,12 @@ jobs:
           test -f "$RESUME_HEADER_FONT"
       - name: Test privacy helpers and bullet catalog
         run: npm test
+      - name: Check committed homepage and bullet catalog
+        run: |
+          npm run check:readme
+          npm run check:catalog
       - name: Build draft
         run: npm run build:draft
-      - name: Check generated bullet catalog
-        run: npm run check:catalog
       - name: Check web content and responsive layout
         run: npm run check:web
       - name: Validate committed portable resume
