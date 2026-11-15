@@ -1,6 +1,6 @@
 # Resume generator
 
-For agents or other repositories that need only the public master resume, `portable-resumes/` contains a standalone Markdown copy of `resume_source.md` and a byte-identical copy of the reviewed `output/pdf/Nathan-Kelly-Resume.pdf`. Refresh them with `npm run portable` after promoting a reviewed public PDF, and commit the pair with the source change. `npm run check:portable` compares Markdown with the source, validates the committed PDF text and fonts, and compares PDF bytes with the local reviewed output when present. GitHub Actions has no access to the ignored local output; it validates and publishes the committed portable PDF. These files are the narrow exception to the generated-output Git policy below. The application resume and its private contacts never enter this folder.
+For agents or other repositories that need only the public master resume, `portable-resumes/` contains a standalone Markdown copy of `resume_source.md` and a byte-identical copy of `output/pdf/Nathan-Kelly-Resume.pdf`. Run `npm run build` to refresh all three files from the current source. Review the PDF before committing the portable pair with the source change. `npm run check:portable` compares Markdown with the source, validates the portable PDF text and fonts, and checks that the local PDF matches when present. GitHub Actions validates and publishes the committed portable PDF. The application resume and its private contacts never enter this folder.
 
 The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
 
@@ -63,14 +63,16 @@ npm run check
 
 Node dependencies are locked; Python dependencies are pinned. System packages and font/browser rendering differences still require visual review. Exports never use your installed Google Chrome as a fallback. Restricted agent environments must obtain normal execution permission before browser startup.
 
-`build` checks the public source and writes `output/pdf/drafts/resume.pdf`. `check` validates source, extracted PDF text, and actual font faces. The font check expects Georgia regular/bold/italic and Arial regular/bold. Four pages is a review baseline, not a mandatory count.
+`npm run build` renders the public source once, checks the PDF text and fonts, and updates `output/pdf/Nathan-Kelly-Resume.pdf` and both portable files. `npm run check` verifies the generated catalog and the portable files. The font check expects Georgia regular/bold/italic and Arial regular/bold.
 
-Render every page before approving a new layout:
+`npm run build:draft` writes `output/pdf/drafts/resume.pdf` for previews and CI diagnostics. To copy an existing reviewed local PDF into the portable pair, `npm run portable` checks it against the current public source and fonts first.
+
+Render every page of the local output before committing the portable files:
 
 ```sh
 mkdir -p tmp/review
-pdftoppm -png output/pdf/drafts/resume.pdf tmp/review/page
-pdftotext -layout output/pdf/drafts/resume.pdf tmp/review/text.txt
+pdftoppm -png output/pdf/Nathan-Kelly-Resume.pdf tmp/review/page
+pdftotext -layout output/pdf/Nathan-Kelly-Resume.pdf tmp/review/text.txt
 ```
 
 The source checker rejects email addresses and common formatted phone numbers in the public Markdown. Keep the `Phoenix, AZ` contact line intact; the private builder uses that one line as its injection point. Do not put personal contact values in code, tests, documentation, or workflow configuration.
@@ -85,7 +87,7 @@ The current master keeps its publication flow, ASU date corrections, and bullet-
 
 The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains three jobs:
 
-1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It tests privacy helpers, checks the public source, builds the public PDF, validates content/fonts, and saves public-only diagnostics.
+1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It uses `npm run build:draft` for diagnostics, checks the draft's content and fonts, and independently validates the committed portable files before uploading the portable PDF.
 2. **encrypted** runs only on `main`, after public validation, for pushes or manual dispatch. It installs dependencies before receiving contact secrets, builds and validates the private PDF in a restricted temporary directory, encrypts it, and uploads only the ciphertext.
 3. **deploy** runs only on `main`, after both preceding jobs succeed, publishes the exact validated public PDF and HTML, and verifies their live bytes.
 
@@ -152,6 +154,6 @@ Before changing source or generator:
 npm run snapshot -- YYYY-MM-DD-before-description
 ```
 
-Snapshots include source, documentation, scripts, templates, tests, workflow/configuration, and top-level local PDFs. Existing snapshots are immutable; they are not full backups. Promote an exact reviewed draft rather than regenerating it after review.
+Snapshots include source, documentation, scripts, templates, tests, workflow/configuration, and top-level local PDFs. Existing snapshots are immutable and capture that defined set of files.
 
 Deleting personal details from current files does not erase historical commits, PR references, old artifacts, downloaded copies, or forks. History/artifact cleanup is a separate operation, and GitHub-retained references may require GitHub Support.

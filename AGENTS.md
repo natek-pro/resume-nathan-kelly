@@ -5,8 +5,8 @@
 This directory is a self-contained resume source and PDF generator. All paths below are relative to this directory, so these instructions remain useful when the folder moves to a new project.
 
 - Active wording and emphasis: `resume_source.md`.
-- Current reviewed export: `output/pdf/Nathan-Kelly-Resume.pdf`.
-- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. Run `npm run portable` only after the public PDF is reviewed and promoted; `npm run check:portable` detects drift. Never copy the private application resume into this folder.
+- Current public export: `output/pdf/Nathan-Kelly-Resume.pdf`.
+- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. Run `npm run build` to refresh the local PDF and both portable files together. `npm run check:portable` detects drift. Never copy the private application resume into this folder.
 - Operational reference: `docs/generator.md`.
 - Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
@@ -28,6 +28,7 @@ This directory is a self-contained resume source and PDF generator. All paths be
 | File | Responsibility |
 | --- | --- |
 | `scripts/export-resume.mjs` | Converts Markdown with `marked`, assembles HTML/CSS, renders a tagged PDF with Playwright/Chromium, then invokes the continuation-header helper. |
+| `scripts/export-portable-resume.mjs` | Validates and refreshes the public PDF and portable pair from one render, or checks existing copies. |
 | `templates/resume.html` | Document wrapper. |
 | `templates/resume.css` | Typography, aligned headings, spacing, and page-break rules. |
 | `scripts/continuation-headers.py` | Reads actual PDF heading positions with `pdfplumber`, derives continuation context, and adds embedded-font headers with ReportLab and `pypdf`. |
@@ -64,15 +65,15 @@ Run commands from this directory:
 
 ```sh
 npm run snapshot -- YYYY-MM-DD-before-description
-npm run export -- resume_source.md output/pdf/drafts/description.pdf
-python3 scripts/check-export.py resume_source.md output/pdf/drafts/description.pdf
+npm run build
+npm run check
 ```
 
 1. Save a snapshot before changing source or generator. Use a new descriptive name; existing snapshots cannot be overwritten.
-2. Make only the authorized changes and export to a distinct draft path.
+2. Make only the authorized changes and run the build. For an isolated preview, use `npm run build:draft` or pass an explicit draft path to `npm run export`.
 3. Render **every page** to images with `pdftoppm` and inspect them. Keep previews and diagnostics under `tmp/`.
 4. Check text extraction, heading/date association, contact details, links, page boundaries, and selective bolding. Confirm individual bullets are not split, headings are not orphaned, and content is not clipped.
-5. Promote the exact reviewed draft to the canonical PDF, or regenerate and reverify if anything changed. Snapshot the accepted source, exporter, and PDF together; update `docs/generator.md` for material workflow changes.
+5. Review the build's public PDF before committing its portable pair. Snapshot the accepted source, exporter, and PDF together. Update `docs/generator.md` for material workflow changes.
 
 Do not edit immutable snapshots. Restore by copying one into a separate draft directory, assessing it, and selectively copying back approved files. Snapshots exclude `output/pdf/drafts/`, `tmp/`, and `reference/`. A snapshot is not a full-directory backup.
 
@@ -105,9 +106,9 @@ Requires Node.js 22+, `marked`, Playwright and a Chromium browser; Python 3 with
 ## Builds and publication
 
 - Git tracks source, generator, templates, dependency configuration, documentation, CI workflows, and the public Markdown/PDF copies in `portable-resumes/`. Other generated PDFs, previews, references, and snapshots are local-only and ignored.
-- `npm run build` exports a draft; `npm run check` validates extracted content and font faces. See `docs/generator.md` for setup and commands.
+- `npm run build` refreshes the local PDF and portable pair. `npm run check` validates source, portable content, font faces, and PDF copy parity. See `docs/generator.md` for setup and commands.
 - CI validates builds and publishes the public PDF on `main` after the validation and encryption jobs succeed. Automated validation does not replace visual review.
-- Promote the exact reviewed draft to the local canonical PDF. Do not commit generated outputs.
+- CI uses `npm run build:draft` for diagnostics and publishes the validated committed portable PDF. Commit reviewed portable files with their source changes.
 
 The Generate and validate resume workflow uses timestamped artifact names such as `Nathan-Kelly-Public-Resume-<UTC timestamp>` and `Nathan-Kelly-Application-Resume-<UTC timestamp>-Encrypted`. The public download contains `Nathan-Kelly-Resume.pdf` and the encrypted download contains `Nathan-Kelly-Application-Resume.pdf.age`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job. Only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
 

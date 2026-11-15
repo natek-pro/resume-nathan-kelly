@@ -52,7 +52,7 @@ jobs:
       - name: Test privacy helpers and bullet catalog
         run: npm test
       - name: Build draft
-        run: npm run build
+        run: npm run build:draft
       - name: Check generated bullet catalog
         run: npm run check:catalog
       - name: Check web content and responsive layout
