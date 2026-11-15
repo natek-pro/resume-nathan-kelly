@@ -1,8 +1,29 @@
 # Resume generator
 
+For agents or other repositories that need only the public master resume, `portable-resumes/` contains a standalone Markdown copy of `resume_source.md` and a byte-identical copy of `output/pdf/Nathan-Kelly-Resume.pdf`. Run `npm run build` to refresh all three files from the current source. Review the PDF before committing the portable pair with the source change. `npm run check:portable` compares Markdown with the source, validates the portable PDF text and fonts, and checks that the local PDF matches when present. GitHub Actions validates and publishes the committed portable PDF. The application resume and its private contacts never enter this folder.
+
 The root `resume_source.md` is the only editable resume source for both public and encrypted builds. `.github/README.md` is a generated display copy that GitHub renders on the repository homepage. Never edit the generated copy; operational instructions live here.
 
-Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage** workflow automatically regenerates and commits `.github/README.md` after source or generator changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and commit the generated file with your source change. `npm run check:readme` detects a stale display copy.
+Run `npm run readme` to refresh the homepage locally (`npm run build` also refreshes it). The **Update resume homepage and bullet catalog** workflow automatically regenerates and commits `.github/README.md` and `docs/bullet-catalog.md` after source or relevant generator/tag changes reach `main`; it can also be run manually on `main`. Pull requests do not receive write permissions. If branch protection prevents the bot commit, run `npm run readme` and `npm run catalog` and commit the generated files with your source change. `npm run check:readme` detects a stale display copy.
+
+## Agent bullet catalog
+
+`docs/bullet-catalog.md` is a tracked, generated index for selecting resume subsets. It contains the exact Markdown text of each Professional Experience list bullet, grouped by organization and role, with targeting/capability tags and a review status. It excludes prose role descriptions, the patent block, and other sections; the master source remains authoritative for those.
+
+```sh
+npm run catalog
+npm run check:catalog
+npm run check:catalog -- --require-reviewed
+npm run test:catalog
+```
+
+Identifiers use a registered company/role prefix and a zero-based index: `TPT-HPT-02` is the third Head of Product & Technology bullet; `TPT-FEDS-00` is the first Founding Engineer & Data Scientist bullet. The index resets per role and changes after inserting/removing/reordering bullets. The catalog embeds a SHA-256 of the complete source; store it with a selection to detect drift. These are readable positional references, not permanent identifiers.
+
+`config/bullet-tags.json` defines role prefixes, tag vocabulary, broad fallback tags, and reviewed per-bullet tags keyed by SHA-256 of the bullet's Markdown text (excluding the list marker and trailing whitespace). Fingerprint matching prevents reviewed tags from shifting to unrelated bullets when indexes move. New/changed bullets receive only broad role defaults and are visibly marked pending; editing bolding also triggers review. Adding or renaming a role requires an explicit mapping, and unsupported nested/task/ordered experience lists fail rather than silently dropping evidence.
+
+After a source edit, rebuild and have an agent read pending text in context, select evidence-supported tags from the vocabulary, and register the displayed fingerprint under the correct role. Remove obsolete entries; add vocabulary terms only when useful and defensible. Rebuild again and run the strict reviewed check. Detailed agent instructions are in `AGENTS.md`. Tags guide selection; they do not add resume claims or calculate a job-fit score.
+
+`npm run build` rebuilds the catalog, and `npm run check` checks its freshness. CI tests the parser, rebuilds the catalog, and checks freshness; the main-only homepage workflow commits the generated document. Automation keeps text synchronized, but pending tag review is reported rather than guessed. Freshness passes with pending tags; `--require-reviewed` is the separate acceptance check for agent-maintained metadata. Catalog generation does not alter the resume source or require browser/PDF rendering.
 
 ## Outputs and privacy
 
@@ -17,7 +38,7 @@ The public PDF is hosted at [natek.pro/resume-pdf](https://natek.pro/resume-pdf/
 
 The HTML version targets `/resume/` and is generated from the same `resume_source.md`; it is never edited separately. `npm run build:web` writes `output/web/resume/index.html` using `scripts/generate-web.mjs` and `templates/resume-web.css`. `npm run check:web` uses the dedicated Playwright browser to verify exact source text, bolding, links, working section anchors, and no horizontal overflow at 1280, 768, 390, and 320 pixels. Screenshots are saved under `tmp/web-review/`. The main build includes HTML generation, and CI requires web checks before deployment. The generated page has no scripts or external font dependencies.
 
-Deployment runs automatically on `main` only after **both** `validate` and `encrypted` succeed. Failed, cancelled, or skipped prerequisites prevent publishing; PRs and other branches never deploy. The deployment job downloads only the current run's named public PDF and web artifacts, verifies their SHA-256 hashes against the validation job's outputs, commits those exact files into `natek-pro/natek.pro`, then polls both live HTTPS URLs until their hashes match. It does not rebuild the outputs or download private artifacts. GitHub Pages publishes the website commit. A publication or verification failure fails the deployment job; the run summary links the verified outputs only on success.
+Deployment runs automatically on `main` only after **both** `validate` and `encrypted` succeed. The public PDF artifact is the committed, reviewed `portable-resumes/Nathan-Kelly-Resume.pdf`; the newly rendered draft is retained for diagnostics and comparison. Failed, cancelled, or skipped prerequisites prevent publishing; PRs and other branches never deploy. The deployment job downloads only the current run's named public PDF and web artifacts, verifies their SHA-256 hashes against the validation job's outputs, commits those exact files into `natek-pro/natek.pro`, then polls both live HTTPS URLs until their hashes match. It does not rebuild the outputs or download private artifacts. GitHub Pages publishes the website commit. A publication or verification failure fails the deployment job; the run summary links the verified outputs only on success.
 
 `WEBSITE_DEPLOY_KEY` is an Actions secret containing a dedicated SSH private key; its public key is a write-enabled deploy key on `natek-pro/natek.pro` only. It is distinct from the age decryption identity and the contact secrets. Rotate it by replacing the website deploy key and the source repository secret together. Automated checks do not replace visual layout review when changing resume content or styling.
 
@@ -42,23 +63,31 @@ npm run check
 
 Node dependencies are locked; Python dependencies are pinned. System packages and font/browser rendering differences still require visual review. Exports never use your installed Google Chrome as a fallback. Restricted agent environments must obtain normal execution permission before browser startup.
 
-`build` checks the public source and writes `output/pdf/drafts/resume.pdf`. `check` validates source, extracted PDF text, and actual font faces. The font check expects Georgia regular/bold/italic and Arial regular/bold. Four pages is a review baseline, not a mandatory count.
+`npm run build` renders the public source once, checks the PDF text and fonts, and updates `output/pdf/Nathan-Kelly-Resume.pdf` and both portable files. `npm run check` verifies the generated catalog and the portable files. The font check expects Georgia regular/bold/italic and Arial regular/bold.
 
-Render every page before approving a new layout:
+`npm run build:draft` writes `output/pdf/drafts/resume.pdf` for previews and CI diagnostics. To copy an existing reviewed local PDF into the portable pair, `npm run portable` checks it against the current public source and fonts first.
+
+Render every page of the local output before committing the portable files:
 
 ```sh
 mkdir -p tmp/review
-pdftoppm -png output/pdf/drafts/resume.pdf tmp/review/page
-pdftotext -layout output/pdf/drafts/resume.pdf tmp/review/text.txt
+pdftoppm -png output/pdf/Nathan-Kelly-Resume.pdf tmp/review/page
+pdftotext -layout output/pdf/Nathan-Kelly-Resume.pdf tmp/review/text.txt
 ```
 
 The source checker rejects email addresses and common formatted phone numbers in the public Markdown. Keep the `Phoenix, AZ` contact line intact; the private builder uses that one line as its injection point. Do not put personal contact values in code, tests, documentation, or workflow configuration.
+
+## Targeted resume project
+
+Targeted drafting has moved to the sibling [resume-targeted project](../../resume-targeted/README.md). Read its [targeting brief](../../resume-targeted/docs/targeting-brief.md) for drafting rules and its [generator guide](../../resume-targeted/docs/generator.md) for commands. It owns copies of the renderer, template, styles, continuation helper, and checks; it reads a pinned public master input and reports drift without changing this source.
+
+The current master keeps its publication flow, ASU date corrections, and bullet-catalog automation. The pre-separation state is preserved by local commit `606f92f` and the immutable snapshot `versions/2026-10-09-before-targeted-project-separation/`. Migrated local working files are archived under ignored `reference/targeted-project-migration/`; local targeted application copies are under `.private/targeted-project-archive/`. No remote was pushed.
 
 ## GitHub Actions
 
 The **Generate and validate resume** workflow (`.github/workflows/validate.yml`) contains three jobs:
 
-1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It tests privacy helpers, checks the public source, builds the public PDF, validates content/fonts, and saves public-only diagnostics.
+1. **validate** runs on PRs, pushes to `main`, and manual dispatch. It uses `npm run build:draft` for diagnostics, checks the draft's content and fonts, and independently validates the committed portable files before uploading the portable PDF.
 2. **encrypted** runs only on `main`, after public validation, for pushes or manual dispatch. It installs dependencies before receiving contact secrets, builds and validates the private PDF in a restricted temporary directory, encrypts it, and uploads only the ciphertext.
 3. **deploy** runs only on `main`, after both preceding jobs succeed, publishes the exact validated public PDF and HTML, and verifies their live bytes.
 
@@ -66,11 +95,12 @@ PRs never receive the contact secrets. No private PDFs, page previews, extracted
 
 Download from **Actions → a run → Summary**:
 
-- `Resume-Nathan-Kelly-<timestamp>-Public`: ZIP containing the identically named public PDF.
-- `Resume-Nathan-Kelly-<timestamp>-Public-Diagnostics`: public page images, extraction, font report, metadata, and provenance; may exist on a failed run.
-- `Resume-Nathan-Kelly-<timestamp>-Encrypted`: ZIP containing `Resume-Nathan-Kelly-<timestamp>.pdf.age`, produced only after the application PDF passes validation and encryption succeeds.
+- `Nathan-Kelly-Public-Resume-<timestamp>` contains the public PDF named `Nathan-Kelly-Resume.pdf`.
+- `Nathan-Kelly-Web-Resume-<timestamp>` contains the validated public web resume.
+- `Nathan-Kelly-Public-Resume-Diagnostics-<timestamp>` contains public page images, extraction, font report, metadata, and provenance. It may exist on a failed run.
+- `Nathan-Kelly-Application-Resume-<timestamp>-Encrypted` contains `Nathan-Kelly-Application-Resume.pdf.age` after the application PDF passes validation and encryption succeeds.
 
-The timestamp is UTC in `YYYYMMDDTHHMMSSZ` format (for example, `20260917T180000Z`) and is shared by all downloads from a build. Rerunning the public job creates a new timestamp; rerunning only the encrypted job reuses the successful public job’s timestamp. The private builder uses a fixed local staging filename; CI renames only the completed ciphertext for download.
+All artifacts from a build share a UTC timestamp in `YYYYMMDDTHHMMSSZ` format, such as `20260917T180000Z`. Rerunning the public job creates a new timestamp. Rerunning only the encrypted job reuses the successful public job’s timestamp. The filenames inside the downloads are stable.
 
 Downloads expire after 14 days. Main builds fail rather than silently omit private contact fields when secrets or the public recipient are missing/invalid. Review all workflow/code/dependency changes before merging: code run on main can access secrets. Protect main with required reviews/checks if accepting contributions.
 
@@ -81,11 +111,11 @@ Install age once (`brew install age`). Extract the encrypted file from the downl
 ```sh
 age --decrypt \
   -i "$HOME/.config/age/resume-identity.txt" \
-  -o "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf" \
-  "$HOME/Downloads/Resume-Nathan-Kelly-20260917T180000Z.pdf.age"
+  -o "$HOME/Downloads/Nathan-Kelly-Application-Resume.pdf" \
+  "$HOME/Downloads/Nathan-Kelly-Application-Resume.pdf.age"
 ```
 
-Replace the example timestamp with the one in your download and adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
+Adjust the input path to where the ZIP was extracted. The output is an ordinary, unencrypted PDF suitable for sending to an employer. Keep it out of the public repo. `age -o` can overwrite an existing destination, so use a fresh output filename when needed.
 
 Back up the identity file securely, such as in an encrypted password-manager attachment. Anyone with the identity can decrypt its matching artifacts; losing it means losing access to those downloads. GitHub cannot recover it. Never paste the private identity into an issue, chat, repository secret, or workflow log.
 
@@ -124,6 +154,6 @@ Before changing source or generator:
 npm run snapshot -- YYYY-MM-DD-before-description
 ```
 
-Snapshots include source, documentation, scripts, templates, tests, workflow/configuration, and top-level local PDFs. Existing snapshots are immutable; they are not full backups. Promote an exact reviewed draft rather than regenerating it after review.
+Snapshots include source, documentation, scripts, templates, tests, workflow/configuration, and top-level local PDFs. Existing snapshots are immutable and capture that defined set of files.
 
 Deleting personal details from current files does not erase historical commits, PR references, old artifacts, downloaded copies, or forks. History/artifact cleanup is a separate operation, and GitHub-retained references may require GitHub Support.

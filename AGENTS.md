@@ -5,12 +5,16 @@
 This directory is a self-contained resume source and PDF generator. All paths below are relative to this directory, so these instructions remain useful when the folder moves to a new project.
 
 - Active wording and emphasis: `resume_source.md`.
-- Current reviewed export: `output/pdf/Nathan-Kelly-Resume.pdf`.
+- Current public export: `output/pdf/Nathan-Kelly-Resume.pdf`.
+- Portable public pair for sparse checkout: `portable-resumes/Nathan-Kelly-Resume.md` and `.pdf`. Run `npm run build` to refresh the local PDF and both portable files together. `npm run check:portable` detects drift. Never copy the private application resume into this folder.
 - Operational reference: `docs/generator.md`.
+- Bullet-selection reference: generated `docs/bullet-catalog.md`; tag metadata: `config/bullet-tags.json`.
 - Historical sources, dated PDFs, drafts, and `versions/` are references, not alternate editing baselines.
+- Targeted resume drafting lives in the separate [resume-targeted project](../resume-targeted/AGENTS.md). Its [targeting brief](../resume-targeted/docs/targeting-brief.md) is the single source of truth for variant drafting rules. This project’s master-layout and publication rules do not govern those drafts.
 
 ## Editorial practices
 
+- Follow the editorial objective, proposal gate, and work discipline in the [targeting brief](../resume-targeted/docs/targeting-brief.md). For the master, assess its complete career positioning and usefulness for the standing role directions; for a variant, assess its intended role. Establish a clear net gain before proposing an edit, compare with retaining the current text, and account for evidence lost. Retaining effective text is a successful review outcome; editing and activity are not measures of progress. When the sibling project is unavailable, these requirements still apply.
 - Exercise editorial judgment. The user's explanations supply evidence, not an obligation to include every detail. Preserve meaningful technical substance; avoid padding and indiscriminate shortening.
 - For substantive wording, emphasis, or structural proposals, show original and proposed text, explain the tradeoff, and obtain approval before applying. Existing approval carries forward; do not ask again for an already approved change.
 - Keep formatting work separate from claims. A bolding-only pass must not silently change words, punctuation, dates, or qualifications.
@@ -24,12 +28,24 @@ This directory is a self-contained resume source and PDF generator. All paths be
 | File | Responsibility |
 | --- | --- |
 | `scripts/export-resume.mjs` | Converts Markdown with `marked`, assembles HTML/CSS, renders a tagged PDF with Playwright/Chromium, then invokes the continuation-header helper. |
+| `scripts/export-portable-resume.mjs` | Validates and refreshes the public PDF and portable pair from one render, or checks existing copies. |
 | `templates/resume.html` | Document wrapper. |
 | `templates/resume.css` | Typography, aligned headings, spacing, and page-break rules. |
 | `scripts/continuation-headers.py` | Reads actual PDF heading positions with `pdfplumber`, derives continuation context, and adds embedded-font headers with ReportLab and `pypdf`. |
 | `scripts/check-export.py` | Compares normalized source letters/numbers with extracted PDF text in order. |
 | `scripts/check-fonts.py` | Rejects rendered font substitutions and emits a per-page font report. |
 | `scripts/snapshot-resume.mjs` | Saves source, generator, documentation, configuration, and top-level PDF exports with SHA-256 hashes. |
+| `scripts/generate-bullet-catalog.mjs` | Copies experience bullets into the agent catalog with role-relative indexes and fingerprint-bound targeting tags. |
+
+## Bullet catalog maintenance and selection
+
+- Read `docs/bullet-catalog.md` before selecting bullets for a resume variant, then verify freshness with `npm run check:catalog`. The catalog is an index, not an alternate editing source. Never edit its generated text directly.
+- IDs use `company-role-00`, starting at zero within each role. Prefixes are registered in `config/bullet-tags.json`. IDs are positional: insertions, removals, and reorders can change them. Record the catalog's source SHA-256 with any selection and verify the text before reusing older selections.
+- After any `resume_source.md` change, run `npm run catalog`. `npm run build` also rebuilds it. The main-only homepage workflow regenerates and commits both the README and catalog automatically. Generation copies text exactly; it does not invent or rewrite accomplishments.
+- An agent must review tags after new/changed bullets. Run `npm run catalog`, read pending entries and the corresponding source/role context, and add an entry in that role's `bullets` object in `config/bullet-tags.json`, keyed by the bullet SHA-256 printed in the catalog. Choose at least three unique registered tags, including at least one `target` tag and evidence-supported `capability` tags. Targets indicate possible application directions, not claims of having held those titles. Use editorial judgment; do not tag tools, responsibilities, or outcomes absent from the evidence.
+- Reviewed tags follow exact bullet Markdown by fingerprint, even when reordered. Wording or bolding edits produce a new fingerprint and pending review; do not blindly copy old tags. Pending bullets have broad role defaults, explicitly marked as unreviewed. Remove obsolete fingerprint entries after assessing the edit. A new or renamed organization/role requires updating its explicit mapping; preserve existing prefixes where the role identity is unchanged.
+- Rebuild after metadata edits, then run `npm run check:catalog -- --require-reviewed` and `npm run test:catalog`. Commit the source, metadata, and generated catalog together when applicable. Freshness checks alone permit pending tags; the strict flag rejects them. GitHub Actions can rebuild text but cannot supply semantic tag review.
+- The catalog covers Professional Experience list bullets. Read role descriptions, the patent block, summary, competencies, education, and skills separately when tailoring a resume. Their absence from the catalog does not make them irrelevant. Selecting/rewriting a variant still follows the editorial approval rules above.
 
 The exporter resolves source/output arguments relative to this directory, blocks browser network requests, waits for fonts, and writes temporary files before atomically replacing the destination on successful export. Rendering success alone is not visual or ATS approval.
 
@@ -49,15 +65,15 @@ Run commands from this directory:
 
 ```sh
 npm run snapshot -- YYYY-MM-DD-before-description
-npm run export -- resume_source.md output/pdf/drafts/description.pdf
-python3 scripts/check-export.py resume_source.md output/pdf/drafts/description.pdf
+npm run build
+npm run check
 ```
 
 1. Save a snapshot before changing source or generator. Use a new descriptive name; existing snapshots cannot be overwritten.
-2. Make only the authorized changes and export to a distinct draft path.
+2. Make only the authorized changes and run the build. For an isolated preview, use `npm run build:draft` or pass an explicit draft path to `npm run export`.
 3. Render **every page** to images with `pdftoppm` and inspect them. Keep previews and diagnostics under `tmp/`.
 4. Check text extraction, heading/date association, contact details, links, page boundaries, and selective bolding. Confirm individual bullets are not split, headings are not orphaned, and content is not clipped.
-5. Promote the exact reviewed draft to the canonical PDF, or regenerate and reverify if anything changed. Snapshot the accepted source, exporter, and PDF together; update `docs/generator.md` for material workflow changes.
+5. Review the build's public PDF before committing its portable pair. Snapshot the accepted source, exporter, and PDF together. Update `docs/generator.md` for material workflow changes.
 
 Do not edit immutable snapshots. Restore by copying one into a separate draft directory, assessing it, and selectively copying back approved files. Snapshots exclude `output/pdf/drafts/`, `tmp/`, and `reference/`. A snapshot is not a full-directory backup.
 
@@ -65,7 +81,7 @@ Do not edit immutable snapshots. Restore by copying one into a separate draft di
 
 The current design is single-column US Letter, Georgia 10.5 pt, 1.25 line height, 0.62-inch vertical and 0.72-inch horizontal margins. Organization headers are larger than role headers; dates and locations align right without a leading dash. Optional descriptions and ASU units sit on separate italic lines. Continuation headers identify the role continuing at the top of each page, with a page counter at right.
 
-Four pages is the reviewed result, not an invariant. Small changes can push the last skills lines onto a mostly empty fifth page. Inspect pagination after every meaningful change; do not force four pages by shrinking text excessively or cutting unapproved content.
+Four pages is the reviewed master result, not an invariant or a targeted-resume rule. Small changes can push the last skills lines onto a mostly empty fifth page. Inspect pagination after every meaningful change; do not force four pages by shrinking text excessively or cutting unapproved content.
 
 ## Text extraction limits
 
@@ -89,12 +105,12 @@ Requires Node.js 22+, `marked`, Playwright and a Chromium browser; Python 3 with
 
 ## Builds and publication
 
-- Git tracks source, generator, templates, dependency configuration, documentation, and CI workflows. Generated PDFs, previews, references, and snapshots are local-only and ignored.
-- `npm run build` exports a draft; `npm run check` validates extracted content and font faces. See `docs/generator.md` for setup and commands.
+- Git tracks source, generator, templates, dependency configuration, documentation, CI workflows, and the public Markdown/PDF copies in `portable-resumes/`. Other generated PDFs, previews, references, and snapshots are local-only and ignored.
+- `npm run build` refreshes the local PDF and portable pair. `npm run check` validates source, portable content, font faces, and PDF copy parity. See `docs/generator.md` for setup and commands.
 - CI validates builds and publishes the public PDF on `main` after the validation and encryption jobs succeed. Automated validation does not replace visual review.
-- Promote the exact reviewed draft to the local canonical PDF. Do not commit generated outputs.
+- CI uses `npm run build:draft` for diagnostics and publishes the validated committed portable PDF. Commit reviewed portable files with their source changes.
 
-The Generate and validate resume workflow names CI downloads `Resume-Nathan-Kelly-<UTC timestamp>-Public`, `Resume-Nathan-Kelly-<UTC timestamp>-Public-Diagnostics`, and (main only) `Resume-Nathan-Kelly-<UTC timestamp>-Encrypted`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job; only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
+The Generate and validate resume workflow uses timestamped artifact names such as `Nathan-Kelly-Public-Resume-<UTC timestamp>` and `Nathan-Kelly-Application-Resume-<UTC timestamp>-Encrypted`. The public download contains `Nathan-Kelly-Resume.pdf` and the encrypted download contains `Nathan-Kelly-Application-Resume.pdf.age`. Timestamps use `YYYYMMDDTHHMMSSZ` and are shared across both jobs. Only public output may enter diagnostics. Private contact secrets are injected in a separate main-only job. Only age ciphertext may leave that job. Never upload or print private generated Markdown, PDFs, previews, extracted text, or subprocess errors. Keep decryption identities outside the repository and outside GitHub.
 
 ## Public and private variants
 
