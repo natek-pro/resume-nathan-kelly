@@ -115,7 +115,7 @@ Conducted applied machine-learning and robotics research and co-developed gradua
 
 ### Multi-Agent Job-Search Workflow · Personal project · 2026
 
-Designed and operate a job-search workflow (Grok Bot) with **multi-agent orchestration** for role discovery, application prefill, long-form writing, and strategy. Coordinate agents through a shared Postgres jobs database, scheduled routines, and defined handoffs. Set **human-in-the-loop approval** gates for every submission and use Codex CLI as an independent writer and reviewer.
+Designed and operate a job-search workflow (Grok Bot) with **multi-agent orchestration** for role discovery, application prefill, long-form writing, and strategy. Coordinate agents through a shared Postgres jobs database, scheduled routines, and defined handoffs. Defined standing authorization for eligible applications and **human review** for exceptions; use Codex CLI as an independent writer and reviewer.
 
 ## Education
 
